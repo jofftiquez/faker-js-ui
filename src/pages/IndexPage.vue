@@ -1,55 +1,81 @@
 <template>
-  <q-drawer show-if-above v-model="toggleDrawer" side="right" bordered>
-    <!-- drawer content -->
-  </q-drawer>
-  <q-page padding>
-    <div class="row">
-      <div class="col-xs-12">
-        <pre></pre>
-        <q-list>
-          <template v-for="(action, index) in commonActions" :key="index">
-            <q-card
-              class="q-mb-sm"
-              flat
-              clickable
-              v-ripple
-              @click="generateEmail(action.fakerFn)"
-            >
-              <q-card-section>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon :name="action.icon"/>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>{{action.name}}</q-item-label>
-                  </q-item-section>
-                  <!-- <q-item-section avatar>
-                    <q-btn
-                      icon="settings"
-                      flat
-                      round
-                      dense
-                      @click.stop="toggleDrawer"
-                    />
-                  </q-item-section> -->
-                </q-item>
-              </q-card-section>
+  <!-- <q-drawer show-if-above v-model="toggleDrawer" side="right" bordered>
+  </q-drawer> -->
+  <q-page padding style="min-width: 400px">
+    <div class="row row-wrap">
+      <template
+        v-for="(group, apiName) in fakerMethodsGroupByApi"
+        :key="apiName"
+      >
+        <div class="col-xs-12 col-md-4 col-lg-3 q-pa-sm">
+          <q-list>
+            <q-card flat clickable>
+              <q-expansion-item
+                class="text-weight-medium text-subtitle1"
+                :default-opened="!isMobile"
+                :label="apiName"
+              >
+                <q-list>
+                  <div style="height: 250px; overflow: scroll">
+                    <template
+                      v-for="(action, actionIndex) in group"
+                      :key="actionIndex"
+                    >
+                      <q-item
+                        clickable
+                        v-ripple
+                        @click="invokeFakerFn(action.fakerFn)"
+                      >
+                        <q-item-section>
+                          <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                  </div>
+                </q-list>
+              </q-expansion-item>
             </q-card>
+          </q-list>
+        </div>
+      </template>
+
+      <!-- <div class="col-xs-12">
+        <q-list>
+          <template v-for="(group, apiName) in fakerMethodsGroupByApi" :key="apiName">
+            <q-item-label header class="text-weight-bold text-black">{{apiName}}</q-item-label>
+            <template v-for="(action, actionIndex) in group" :key="actionIndex">
+              <q-card
+                class="q-mb-sm"
+                flat
+                clickable
+                v-ripple
+                @click="invokeFakerFn(action.fakerFn)"
+              >
+                <q-card-section>
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label>{{action.name}}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-card-section>
+              </q-card>
+            </template>
           </template>
         </q-list>
-      </div>
+      </div> -->
     </div>
   </q-page>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { commonActions } from '../constants/faker';
+import { computed, ref } from 'vue';
+import { fakerMethods } from '../constants/faker';
+import { useQuasar } from 'quasar';
 export default {
   setup () {
-    async function generateEmail (fakerFn) {
-      const email = await fakerFn();
-      console.log(email);
+    async function invokeFakerFn (fakerFn) {
+      const result = await fakerFn();
+      console.log(result);
     }
 
     const drawer = ref(false);
@@ -57,11 +83,26 @@ export default {
       drawer.value = !drawer.value;
     }
 
+    const fakerMethodsGroupByApi = fakerMethods.reduce((acc, curr) => {
+      const api = curr.apiName;
+      if (!acc[api]) {
+        acc[api] = [];
+      }
+      acc[api].push(curr);
+      return acc;
+    }, {});
+
+    const $q = useQuasar();
+    console.warn($q);
+    const isMobile = computed(() => $q.screen.lt.md);
+    console.warn('isMobile', isMobile.value);
+
     return {
-      commonActions,
-      generateEmail,
+      fakerMethodsGroupByApi,
+      invokeFakerFn,
       drawer,
       toggleDrawer,
+      isMobile,
     };
   },
 };
