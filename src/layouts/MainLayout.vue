@@ -2,10 +2,9 @@
   <q-layout view="hHh lpR fFf" style="background: #f2f2f2">
 
     <q-header class="bg-primary text-white">
-      <q-toolbar>
-        <!-- <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" /> -->
+      <q-toolbar style="height: 70px;">
         <q-toolbar-title>
-          Faker.js Browser Extension
+          Faker.js UI
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
