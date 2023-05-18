@@ -6,11 +6,11 @@
   "icons": {
     "16": "icons/icon-16x16.png",
     "48": "icons/icon-48x48.png",
-    "128": "icons/icon-128x128.png"
+    "128": "icons/icon-120x120.png"
   },
   "browser_action": {
     "default_title": "Faker.js UI",
-    "default_popup": "www/index.html"
+    "default_popup": "www/index.html#/faker"
   },
   "background": {
     "scripts": [
