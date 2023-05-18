@@ -1,109 +1,138 @@
 <template>
-  <!-- <q-drawer show-if-above v-model="toggleDrawer" side="right" bordered>
-  </q-drawer> -->
-  <q-page padding style="min-width: 400px">
-    <div class="row row-wrap">
-      <template
-        v-for="(group, apiName) in fakerMethodsGroupByApi"
-        :key="apiName"
-      >
-        <div class="col-xs-12 col-md-4 col-lg-3 q-pa-sm">
-          <q-list>
-            <q-card flat clickable>
-              <q-expansion-item
-                class="text-weight-medium text-subtitle1"
-                :default-opened="!isMobile"
-                :label="apiName"
-              >
-                <q-list>
-                  <div style="height: 250px; overflow: scroll">
-                    <template
-                      v-for="(action, actionIndex) in group"
-                      :key="actionIndex"
-                    >
-                      <q-item
-                        clickable
-                        v-ripple
-                        @click="invokeFakerFn(action.fakerFn)"
-                      >
-                        <q-item-section>
-                          <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </template>
-                  </div>
-                </q-list>
-              </q-expansion-item>
-            </q-card>
-          </q-list>
+  <div class="main-bg">
+    <q-page padding>
+      <div class="row justify-center items-center q-mt-xl">
+        <div class="col-xs-12 text-center q-mb-xl">
+          <img width="190" src="../assets/images/faker-js-ui-logo.png" alt="" />
         </div>
-      </template>
-
-      <!-- <div class="col-xs-12">
-        <q-list>
-          <template v-for="(group, apiName) in fakerMethodsGroupByApi" :key="apiName">
-            <q-item-label header class="text-weight-bold text-black">{{apiName}}</q-item-label>
-            <template v-for="(action, actionIndex) in group" :key="actionIndex">
-              <q-card
-                class="q-mb-sm"
-                flat
-                clickable
-                v-ripple
-                @click="invokeFakerFn(action.fakerFn)"
-              >
-                <q-card-section>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label>{{action.name}}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </template>
-          </template>
-        </q-list>
-      </div> -->
-    </div>
-  </q-page>
+        <div class="columns col-xs-12 col-md-4 items-center text-center q-gutter-md">
+          <label class="main-title text-h1 text-bold">Faker.js UI</label>
+          <p class="text-body1">
+            Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using
+            <a
+              href="https://fakerjs.dev/?ref=https://fakerjsui.com"
+              target="_blank"
+              >Faker.js</a
+            >.
+          </p>
+        </div>
+        <div class="col-xs-12 text-center q-mb-xl q-gutter-sm">
+          <q-btn
+            label="Start Faking! 👀"
+            color="primary"
+            size="lg"
+            unelevated
+            rounded
+            no-caps
+            :to="{ name: 'faker' }"
+          />
+          <q-btn
+            color="primary"
+            size="lg"
+            outline
+            rounded
+            no-caps
+            :label="`Download v${version}`"
+          >
+            <q-tooltip bottom>
+              Coming soon to Chrome Extension!
+            </q-tooltip>
+          </q-btn>
+        </div>
+        <div class="col-xs-12 col-md-3 text-center q-mb-xl q-gutter-sm">
+          <p class="text-body1">
+            <i>
+              "{{fakePhrase}}"
+            </i>
+          </p>
+          - Generated using Faker.js
+        </div>
+        <div class="col-xs-12 text-center q-mb-xl q-gutter-sm">
+          <span class="text-center text-body1">
+            Made with 💟 by&nbsp;<a href="https://twitter.com/jrtiquez" target="_blank">Joff Tiquez</a>. Give us a ⭐ in <a href="https://github.com/jofftiquez/faker-js-ui" target="_blank">GitHub</a>.
+          </span>
+        </div>
+      </div>
+    </q-page>
+  </div>
 </template>
 
 <script>
-import { computed, ref } from 'vue';
-import { fakerMethods } from '../constants/faker';
-import { useQuasar } from 'quasar';
+import { faker } from '@faker-js/faker';
+import pkgJson from '../../package.json';
+import { useMeta } from 'quasar';
+
+const version = pkgJson.version;
+
+const metaData = {
+  // sets document title
+  title: 'Faker.js UI - Home',
+
+  // meta tags
+  meta: {
+    description: { name: 'description', content: 'Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js' },
+    keywords: { name: 'keywords', content: 'Farke.js UI' },
+    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+    // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
+    ogTitle: {
+      property: 'og:title',
+      // optional; similar to titleTemplate, but allows templating with other meta properties
+      template (ogTitle) {
+        return `${ogTitle} - Home`;
+      },
+    },
+  },
+
+  // JS tags
+  script: {
+    ldJson: {
+      type: 'application/ld+json',
+      innerHTML: '{ "@context": "http://schema.org" }',
+    },
+  },
+
+  // <html> attributes
+  htmlAttr: {
+    'xmlns:cc': 'http://creativecommons.org/ns#', // generates <html xmlns:cc="http://creativecommons.org/ns#">,
+    empty: undefined, // generates <html empty>
+  },
+
+  // <body> attributes
+  bodyAttr: {
+    'action-scope': 'xyz', // generates <body action-scope="xyz">
+    empty: undefined, // generates <body empty>
+  },
+
+  // <noscript> tags
+  noscript: {
+    default: 'This is content for browsers with no JS (or disabled JS)',
+  },
+};
+
 export default {
   setup () {
-    async function invokeFakerFn (fakerFn) {
-      const result = await fakerFn();
-      console.log(result);
-    }
-
-    const drawer = ref(false);
-    function toggleDrawer () {
-      drawer.value = !drawer.value;
-    }
-
-    const fakerMethodsGroupByApi = fakerMethods.reduce((acc, curr) => {
-      const api = curr.apiName;
-      if (!acc[api]) {
-        acc[api] = [];
-      }
-      acc[api].push(curr);
-      return acc;
-    }, {});
-
-    const $q = useQuasar();
-    console.warn($q);
-    const isMobile = computed(() => $q.screen.lt.md);
-    console.warn('isMobile', isMobile.value);
-
+    useMeta(metaData);
+    const fakePhrase = faker.hacker.phrase();
     return {
-      fakerMethodsGroupByApi,
-      invokeFakerFn,
-      drawer,
-      toggleDrawer,
-      isMobile,
+      version,
+      fakePhrase,
     };
   },
 };
 </script>
+
+<style scoped>
+.main-bg {
+  /* background-color: rgb(189, 233, 239, 0.5); */
+}
+
+.main-footer {
+  /* background-color: rgb(189, 233, 239, 0.5); */
+}
+
+.main-title {
+  background: linear-gradient(to right, #5c21fe 0%, #9419ff 50%, #cb07e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>
