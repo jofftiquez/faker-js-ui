@@ -1,6 +1,6 @@
 {
   "name": "faker-js-bex",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Generate and fill up forms using faker.js",
   "productName": "Faker.js Browser Extension",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
