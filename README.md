@@ -1,33 +1,41 @@
-# Faker.js Browser Extension (faker-js-bex)
+<p align="center"><img width="200px" src="./faker-js-ui-logo.png"></p>
 
-Generate and fill up forms using faker.js
+# Faker.js UI
 
-## Install the dependencies
+Web App and Browser Extension for [Faker.js](https://fakerjs.dev/).
+
+## Features in development
+
+- [ ] Auto-fill forms using appropriate Faker.js methods
+- [ ] Add prompt for arguments so users can maximize the parameters for each methods
+- [ ] Preview of copied/generated data
+
+## Developement
+
+There are 2 modes to develop Faker.js UI:
+- **Web App (SPA)**: The Web App is a Quasar Framework and Vue.js 3 that can be run locally and deployed to a static hosting site.
+- **Browser Extension**: The Browser Extension is a Quasar Framework and Vue.js 3 that can be run locally and deployed to the Chrome Web Store.
+
+To run the Web App locally:
+
 ```bash
-yarn
-# or
-npm install
+
+# Install dependencies
+yarn install
+
+# Run the app
+yarn dev:spa # or yarn build:spa to build for production
+
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+To run the Browser Extension locally:
+
 ```bash
-quasar dev
+
+# Install dependencies
+yarn install
+
+# Run the app
+yarn dev:bex # or yarn build:bex to build for production
+
 ```
-
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
