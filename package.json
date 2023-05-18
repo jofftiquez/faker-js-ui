@@ -1,0 +1,52 @@
+{
+  "name": "faker-js-bex",
+  "version": "0.0.1",
+  "description": "Generate and fill up forms using faker.js",
+  "productName": "Faker.js Browser Extension",
+  "author": "Joff Tiquez <jofftiquez@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --fix --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev -m bex",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.0.1",
+    "@quasar/extras": "^1.0.0",
+    "axios": "^1.2.1",
+    "core-js": "^3.6.5",
+    "pinia": "^2.0.11",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "@quasar/app-webpack": "^3.0.0",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "eslint-webpack-plugin": "^3.1.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
