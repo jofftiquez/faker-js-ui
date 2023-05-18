@@ -9,7 +9,7 @@
     "lint": "eslint --fix --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m bex",
-    "build": "quasar build"
+    "build": "quasar build -m bex"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.1",
