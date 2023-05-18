@@ -8,8 +8,10 @@
   "scripts": {
     "lint": "eslint --fix --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev -m bex",
-    "build": "quasar build -m bex"
+    "dev:spa": "quasar dev -m spa",
+    "build:spa": "quasar build -m spa",
+    "dev:bex": "quasar dev -m bex",
+    "build:bex": "quasar build -m bex"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.1",
