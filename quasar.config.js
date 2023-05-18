@@ -150,8 +150,8 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: 'Faker.js Browser Extension',
-        short_name: 'Faker.js Browser Extension',
+        name: 'Faker.js UI',
+        short_name: 'Faker.js UI',
         description: 'Generate and fill up forms using faker.js',
         display: 'standalone',
         orientation: 'portrait',
