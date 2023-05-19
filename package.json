@@ -1,5 +1,5 @@
 {
-  "name": "faker-js-bex",
+  "name": "faker-js-ui",
   "version": "0.1.0",
   "description": "Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js",
   "productName": "Faker.js UI",
