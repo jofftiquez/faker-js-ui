@@ -2,7 +2,7 @@
   "name": "Faker.js UI",
   "description": "Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js",
   "version": "0.1.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "icons": {
     "16": "icons/icon-16x16.png",
     "48": "icons/icon-48x48.png",
