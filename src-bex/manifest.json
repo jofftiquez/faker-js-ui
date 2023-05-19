@@ -36,7 +36,6 @@
   "permissions": [
     "<all_urls>",
     "storage",
-    "tabs",
     "activeTab"
   ],
   "web_accessible_resources": [
