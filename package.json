@@ -1,7 +1,7 @@
 {
   "name": "faker-js-bex",
   "version": "0.1.0",
-  "description": "Generate and fill up forms using faker.js",
+  "description": "Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js",
   "productName": "Faker.js UI",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
   "private": true,
