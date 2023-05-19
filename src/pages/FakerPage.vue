@@ -10,15 +10,17 @@
             <q-card flat clickable>
               <q-expansion-item
                 class="text-weight-medium text-subtitle1"
-                :default-opened="!isMobile"
+                default-opened
                 :label="apiName"
               >
+                <!-- :default-opened="!isMobile" -->
                 <q-list>
                   <div style="height: 250px; overflow: scroll">
                     <template
                       v-for="(action, actionIndex) in group"
                       :key="actionIndex"
                     >
+                      <q-separator/>
                       <q-item
                         clickable
                         v-ripple
@@ -27,6 +29,14 @@
                         <q-item-section>
                           <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
                         </q-item-section>
+                        <!-- <q-item-section avatar>
+                          <q-btn
+                            icon="chevron_right"
+                            round
+                            flat
+                            @click.stop="openBeastMode(action)"
+                          />
+                        </q-item-section> -->
                       </q-item>
                     </template>
                   </div>
@@ -36,31 +46,6 @@
           </q-list>
         </div>
       </template>
-
-      <!-- <div class="col-xs-12">
-        <q-list>
-          <template v-for="(group, apiName) in fakerMethodsGroupByApi" :key="apiName">
-            <q-item-label header class="text-weight-bold text-black">{{apiName}}</q-item-label>
-            <template v-for="(action, actionIndex) in group" :key="actionIndex">
-              <q-card
-                class="q-mb-sm"
-                flat
-                clickable
-                v-ripple
-                @click="invokeFakerFn(action.fakerFn)"
-              >
-                <q-card-section>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label>{{action.name}}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </template>
-          </template>
-        </q-list>
-      </div> -->
     </div>
   </q-page>
 </template>
@@ -95,12 +80,24 @@ export default {
     const $q = useQuasar();
     const isMobile = computed(() => $q.screen.lt.md);
 
+    function openBeastMode (action) {
+      console.warn('Beast Mode!', action);
+    }
+
+    function searchFakerMethods (searchTerm) {
+      return fakerMethods.filter((method) => {
+        return method.searchNeedle.test(searchTerm);
+      });
+    }
+
     return {
       fakerMethodsGroupByApi,
       invokeFakerFn,
       drawer,
       toggleDrawer,
       isMobile,
+      openBeastMode,
+      searchFakerMethods,
     };
   },
 };
