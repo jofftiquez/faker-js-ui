@@ -10,7 +10,7 @@
   },
   "browser_action": {
     "default_title": "Faker.js UI",
-    "default_popup": "www/index.html#/faker"
+    "default_popup": "www/index.html"
   },
   "background": {
     "scripts": [
