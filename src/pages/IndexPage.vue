@@ -1,5 +1,31 @@
 <template>
   <q-page padding style="min-width: 400px">
+    <div class="row">
+      <div class="col-xs-12 q-pa-sm">
+        <q-select
+          v-model="searchModel"
+          input-debounce="0"
+          label="Search Faker Method"
+          style="background-color: white;"
+          placeholder="Full Name, Email, Avatar, etc."
+          outlined
+          hide-selected
+          return-object
+          use-input
+          autofocus
+          :options="options"
+          @filter="filterFn"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </div>
+    </div>
     <div class="row row-wrap">
       <template
         v-for="(group, apiName) in fakerMethodsGroupByApi"
@@ -10,10 +36,9 @@
             <q-card flat clickable>
               <q-expansion-item
                 class="text-weight-medium text-subtitle1"
-                default-opened
+                :default-opened="!isMobile"
                 :label="apiName"
               >
-                <!-- :default-opened="!isMobile" -->
                 <q-list>
                   <div style="height: 250px; overflow: scroll">
                     <template
@@ -51,7 +76,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { fakerMethods } from '../constants/faker';
 import { useQuasar } from 'quasar';
 export default {
@@ -81,14 +106,38 @@ export default {
     const isMobile = computed(() => $q.screen.lt.md);
 
     function openBeastMode (action) {
+      // TODO: implement beast mode
+      // utilize each method's parameters
       console.warn('Beast Mode!', action);
     }
 
-    function searchFakerMethods (searchTerm) {
-      return fakerMethods.filter((method) => {
-        return method.searchNeedle.test(searchTerm);
+    const searchModel = ref(null);
+    const stringOptions = fakerMethods.map((method) => {
+      return {
+        label: method.searchNeedle,
+        value: method,
+      };
+    });
+    const options = ref();
+    function filterFn (val, update) {
+      if (val === '') {
+        update(() => {
+          options.value = stringOptions;
+        });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        options.value = stringOptions.filter(v => {
+          return v?.value?.searchNeedle?.toLowerCase().indexOf(needle) > -1;
+        });
       });
     }
+    watch(searchModel, (val) => {
+      if (!val) return;
+      invokeFakerFn(val.value.fakerFn);
+    });
 
     return {
       fakerMethodsGroupByApi,
@@ -97,7 +146,9 @@ export default {
       toggleDrawer,
       isMobile,
       openBeastMode,
-      searchFakerMethods,
+      searchModel,
+      options,
+      filterFn,
     };
   },
 };

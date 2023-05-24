@@ -8,8 +8,16 @@ async function postActions (name, result) {
   }
   await copyToClipboard(result);
   Notify.create({
-    color: 'positive',
-    message: `${name} copied to clipboard`,
+    html: true,
+    message: `
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+      <div class="text-subtitle1"><b>${name}</b> copied to clipboard!</div>
+      <div>
+        <q-separator/>
+      </div>
+      <pre style="border-left: 2px solid grey; padding-left: 5px;">${result}</pre>
+      </div>
+    `,
   });
 }
 
@@ -1323,7 +1331,7 @@ export const fakerMethods = fakerAPIs.flatMap((fakerApi) => {
     const { generatedMethodName, generatedMethod, generatedParams } = method;
     const name = startCase(generatedMethodName);
     const apiName = `${emoji || ''} ${startCase(api)}`;
-    const searchNeedle = new RegExp(`${api} ${generatedMethodName}`, 'gi');
+    const searchNeedle = `${startCase(api)} - ${name}`;
     return {
       apiName,
       emoji,
