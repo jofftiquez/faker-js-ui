@@ -9,7 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: 'npm run build:spa'
+      - name: Install Yarn
+        run: npm install yarn@latest -g
+      - name: Install Firebase Tools
+        run: npm install firebase-tools -g
+      - name: Install dependencies
+        run: yarn
+      - name: Run build
+        run: yarn build:spa
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

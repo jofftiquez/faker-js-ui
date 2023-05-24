@@ -20,7 +20,6 @@ jobs:
         run: yarn
       - name: Run build
         run: yarn build:spa
-      - name: Run deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
