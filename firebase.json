@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "faker-js-ui-app",
     "public": "dist/spa",
     "ignore": [
       "firebase.json",
