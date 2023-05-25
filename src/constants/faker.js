@@ -1,25 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { copyToClipboard, Notify } from 'quasar';
 import { startCase } from 'lodash';
-
-async function postActions (name, result) {
-  if (typeof result === 'object') {
-    result = JSON.stringify(result, null, 2);
-  }
-  await copyToClipboard(result);
-  Notify.create({
-    html: true,
-    message: `
-      <div style="display: flex; flex-direction: column; justify-content: center;">
-      <div class="text-subtitle1"><b>${name}</b> copied to clipboard!</div>
-      <div>
-        <q-separator/>
-      </div>
-      <pre style="border-left: 2px solid grey; padding-left: 5px;">${result}</pre>
-      </div>
-    `,
-  });
-}
 
 function generateMethods (api, methods) {
   return methods.map((method) => {
@@ -1338,9 +1318,9 @@ export const fakerMethods = fakerAPIs.flatMap((fakerApi) => {
       name,
       params: generatedParams,
       searchNeedle,
-      fakerFn: async (options) => {
+      fakerFn: async ({ options } = {}) => {
         const result = generatedMethod(options);
-        await postActions(name, result);
+        if (!isNaN(Number(result))) return Number(result);
         return result;
       },
     };
