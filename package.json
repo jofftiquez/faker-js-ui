@@ -1,6 +1,6 @@
 {
   "name": "faker-js-ui",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js",
   "productName": "Faker.js UI",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
