@@ -8,16 +8,14 @@
     "48": "icons/icon-48x48.png",
     "128": "icons/icon-120x120.png"
   },
-  "browser_action": {
-    "default_title": "Faker.js UI",
-    "default_popup": "www/index.html"
-  },
+  "author": "Joff Tiquez",
   "background": {
+    "persistent": true,
+    "service_worker": "service_worker.js",
     "scripts": [
       "www/bex-background.js",
       "js/background.js"
-    ],
-    "persistent": true
+    ]
   },
   "content_scripts": [
     {
@@ -39,10 +37,23 @@
     "activeTab"
   ],
   "web_accessible_resources": [
-    "www/*",
-    "js/*",
-    "css/*",
-    "<all_urls>"
+    {
+      "resources": [
+        "www/*",
+        "js/*",
+        "css/*",
+        "<all_urls>"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+  },
+  "action": {
+    "default_title": "Faker.js UI",
+    "default_popup": "www/index.html"
+  }
 }

@@ -44,6 +44,45 @@
     <!-- TODO: implement history dialog -->
   </q-dialog>
 
+  <q-dialog v-model="firstGenerateDialog">
+    <q-card>
+      <q-toolbar>
+        <q-toolbar-title>We love feedback! 💜</q-toolbar-title>
+        <q-space/>
+        <q-btn
+          flat
+          round
+          icon="close"
+          @click="firstGenerateDialog = false"
+        />
+      </q-toolbar>
+      <q-separator/>
+      <q-card-section>
+        <p class="text-body1">Did you like this tool? Perhaps looking for something specific? Or maybe you have some suggestions?</p>
+        <p class="text-body1">Let us know what you think about our tool by giving us a review in Product Hunt, thank you so much.</p>
+      </q-card-section>
+      <q-separator/>
+      <q-card-actions>
+        <q-space />
+        <q-btn
+          label="Give us a review"
+          color="primary"
+          href="https://www.producthunt.com/products/faker-js-ui/reviews/new"
+          target="_blank"
+          no-caps
+          unelevated
+        />
+        <q-btn
+          label="I'll do it later"
+          color="negative"
+          no-caps
+          outline
+          @click="firstGenerateDialog = false"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
   <q-page padding style="min-width: 400px">
     <div class="row">
       <div class="col-xs-12 q-pa-sm">
@@ -136,14 +175,18 @@
       </template>
     </div>
 
-    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        icon="history"
-        color="primary"
-        fab
-        @click="rightDrawerOpen = !rightDrawerOpen"
-      />
-    </q-page-sticky> -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn
+          icon="reviews"
+          color="primary"
+          fab
+          @click="firstGenerateDialog = true"
+        >
+          <q-tooltip>
+            Give us a review
+          </q-tooltip>
+        </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -235,6 +278,7 @@ export default {
       invokeFakerFn(val.value);
     });
 
+    const firstGenerateDialog = ref(false);
     async function postActions ({ name, result }) {
       if (typeof result === 'object') {
         result = JSON.stringify(result, null, 2);
@@ -254,8 +298,16 @@ export default {
           </div>
         `,
       });
+      const firstGenerate = window.localStorage.getItem('firstGenerate');
+      if (!firstGenerate) {
+        window.localStorage.setItem('firstGenerate', true);
+        setTimeout(() => {
+          firstGenerateDialog.value = true;
+        }, 2000);
+      }
     }
 
+    // TODO: implement later
     const rightDrawerOpen = ref(false);
 
     return {
@@ -275,6 +327,7 @@ export default {
       beastModeAction,
       beastModeFormRef,
       rightDrawerOpen,
+      firstGenerateDialog,
     };
   },
 };
