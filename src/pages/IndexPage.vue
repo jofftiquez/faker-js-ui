@@ -40,9 +40,9 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="historyDialog">
-    <!-- TODO: implement history dialog -->
-  </q-dialog>
+  <!-- TODO: implement history dialog -->
+  <!-- <q-dialog v-model="historyDialog">
+  </q-dialog> -->
 
   <q-dialog v-model="firstGenerateDialog">
     <q-card>
@@ -125,6 +125,19 @@
           </q-item>
         </template>
         </q-select>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="col-xs-12  q-pa-sm">
+        <q-btn
+          label="Fill-out fields"
+          color="primary"
+          class="full-width"
+          unelevated
+          no-caps
+          @click="fillOutFields"
+        />
       </div>
     </div>
 
@@ -283,6 +296,7 @@ export default {
       if (typeof result === 'object') {
         result = JSON.stringify(result, null, 2);
       }
+
       await copyToClipboard(result);
       Notify.create({
         html: true,
@@ -310,6 +324,16 @@ export default {
     // TODO: implement later
     const rightDrawerOpen = ref(false);
 
+    // TODO: Bex
+
+    function fillOutFields () {
+      console.warn('test send');
+    }
+
+    $q.bex.on('dom.fields', (fields) => {
+      console.warn('dom.fields', fields);
+    });
+
     return {
       fakerMethodsGroupByApi,
       invokeFakerFn,
@@ -328,6 +352,7 @@ export default {
       beastModeFormRef,
       rightDrawerOpen,
       firstGenerateDialog,
+      fillOutFields,
     };
   },
 };
