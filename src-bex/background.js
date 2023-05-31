@@ -73,4 +73,17 @@ export default bexBackground((bridge /* , allActiveConnections */) => {
     }
   })
    */
+
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    bridge.send('bex.tab.opened', { url: tab.url });
+  });
+
+  bridge.on('fakerjsui.domfields', (fields) => {
+    console.warn('fields in background', fields);
+    bridge.send('fakerjsui.domfields', fields);
+  });
+
+  bridge.on('fakerjsui.fillout', (event) => {
+    bridge.send('fakerjsui.fillout', event);
+  });
 });

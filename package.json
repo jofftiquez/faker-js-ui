@@ -15,12 +15,12 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
     "events": "^3.3.0",
     "lodash": "^4.17.21",
     "pinia": "^2.0.11",
-    "quasar": "^2.6.0",
+    "quasar": "^2.12.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.0.0",
     "vue-router": "^4.0.0"

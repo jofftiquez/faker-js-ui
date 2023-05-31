@@ -128,7 +128,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="column" v-if="isBex">
       <div class="col-xs-12  q-pa-sm">
         <q-btn
           label="Fill-out fields"
@@ -220,6 +220,7 @@ export default {
     }
 
     const drawer = ref(false);
+
     function toggleDrawer () {
       drawer.value = !drawer.value;
     }
@@ -325,14 +326,17 @@ export default {
     const rightDrawerOpen = ref(false);
 
     // TODO: Bex
-
-    function fillOutFields () {
-      console.warn('test send');
+    const isBex = computed(() => $q.bex);
+    async function fillOutFields () {
+      console.warn('fakerMethods', fakerMethods);
+      $q.bex.send('fakerjsui.fillout', fakerMethods);
     }
 
-    $q.bex.on('dom.fields', (fields) => {
-      console.warn('dom.fields', fields);
-    });
+    if (isBex.value) {
+      $q.bex.on('fakerjsui.domfields', (fields) => {
+        console.warn('fakerjsui.domfields', fields);
+      });
+    }
 
     return {
       fakerMethodsGroupByApi,
@@ -353,6 +357,7 @@ export default {
       rightDrawerOpen,
       firstGenerateDialog,
       fillOutFields,
+      isBex,
     };
   },
 };
