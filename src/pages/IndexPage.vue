@@ -111,7 +111,8 @@
 
           <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
-            <q-item-section avatar>
+            <!-- TODO: remove condition when full bex feature is done -->
+            <q-item-section v-if="!isBex" avatar>
               <q-btn
                 icon="more_vert"
                 round
@@ -131,13 +132,17 @@
     <div class="column" v-if="isBex">
       <div class="col-xs-12  q-pa-sm">
         <q-btn
-          label="Fill-out fields"
+          label="Fill-out fields (Alpha)"
           color="primary"
           class="full-width"
           unelevated
           no-caps
           @click="fillOutFields"
-        />
+        >
+          <q-tooltip bottom>
+            Might not fully work yet, but we're working on it!
+          </q-tooltip>
+        </q-btn>
       </div>
     </div>
 
@@ -169,7 +174,8 @@
                         <q-item-section>
                           <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
                         </q-item-section>
-                        <q-item-section avatar>
+                        <!-- TODO: remove condition when full bex feature is done -->
+                        <q-item-section v-if="!isBex" avatar>
                           <q-btn
                             icon="more_vert"
                             round
