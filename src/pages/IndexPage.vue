@@ -40,9 +40,9 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="historyDialog">
-    <!-- TODO: implement history dialog -->
-  </q-dialog>
+  <!-- TODO: implement history dialog -->
+  <!-- <q-dialog v-model="historyDialog">
+  </q-dialog> -->
 
   <q-dialog v-model="firstGenerateDialog">
     <q-card>
@@ -111,7 +111,8 @@
 
           <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
-            <q-item-section avatar>
+            <!-- TODO: remove condition when full bex feature is done -->
+            <q-item-section v-if="!isBex" avatar>
               <q-btn
                 icon="more_vert"
                 round
@@ -125,6 +126,23 @@
           </q-item>
         </template>
         </q-select>
+      </div>
+    </div>
+
+    <div class="column" v-if="isBex">
+      <div class="col-xs-12  q-pa-sm">
+        <q-btn
+          label="Fill-out fields (Alpha)"
+          color="primary"
+          class="full-width"
+          unelevated
+          no-caps
+          @click="fillOutFields"
+        >
+          <q-tooltip bottom>
+            Might not fully work yet, but we're working on it!
+          </q-tooltip>
+        </q-btn>
       </div>
     </div>
 
@@ -156,7 +174,8 @@
                         <q-item-section>
                           <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
                         </q-item-section>
-                        <q-item-section avatar>
+                        <!-- TODO: remove condition when full bex feature is done -->
+                        <q-item-section v-if="!isBex" avatar>
                           <q-btn
                             icon="more_vert"
                             round
@@ -207,6 +226,7 @@ export default {
     }
 
     const drawer = ref(false);
+
     function toggleDrawer () {
       drawer.value = !drawer.value;
     }
@@ -283,6 +303,7 @@ export default {
       if (typeof result === 'object') {
         result = JSON.stringify(result, null, 2);
       }
+
       await copyToClipboard(result);
       Notify.create({
         html: true,
@@ -310,6 +331,19 @@ export default {
     // TODO: implement later
     const rightDrawerOpen = ref(false);
 
+    // TODO: Bex
+    const isBex = computed(() => $q.bex);
+    async function fillOutFields () {
+      console.warn('fakerMethods', fakerMethods);
+      $q.bex.send('fakerjsui.fillout', fakerMethods);
+    }
+
+    if (isBex.value) {
+      $q.bex.on('fakerjsui.domfields', (fields) => {
+        console.warn('fakerjsui.domfields', fields);
+      });
+    }
+
     return {
       fakerMethodsGroupByApi,
       invokeFakerFn,
@@ -328,6 +362,8 @@ export default {
       beastModeFormRef,
       rightDrawerOpen,
       firstGenerateDialog,
+      fillOutFields,
+      isBex,
     };
   },
 };

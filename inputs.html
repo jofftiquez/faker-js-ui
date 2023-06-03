@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- create a basic style for all the forms inside this document -->
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input {
+      margin: 10px;
+      padding: 10px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- create a form with all possible types of input elements -->
+  <form action="inputs.php" method="post">
+    <input type="text" name="text" placeholder="text">
+    <input type="password" name="password" placeholder="password">
+    <input type="email" name="email" placeholder="email">
+    <input type="number" name="number" placeholder="number">
+    <input type="date" name="date" placeholder="date">
+    <input type="time" name="time" placeholder="time">
+    <input type="color" name="color" placeholder="color">
+    <input type="range" name="range" placeholder="range">
+    <input type="file" name="file" placeholder="file">
+    <input type="tel" name="tel" placeholder="tel">
+    <input type="url" name="url" placeholder="url">
+    <!-- add more fields for personal details -->
+    <input type="text" name="first name" placeholder="first name">
+    <input type="text" name="middle name" placeholder="middle name">
+    <input type="text" name="last name" placeholder="surname">
+    <input type="text" name="age" placeholder="age">
+    <input type="submit" name="submit" value="submit">
+  </form>
+
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 {
   "name": "faker-js-ui",
   "version": "0.3.1",
-  "description": "Use Faker.js UI to easiliy generate fake (but realistic) data for testing and development using Faker.js",
+  "description": "Simple and intuitive UI for Faker.js",
   "productName": "Faker.js UI",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
   "private": true,
@@ -14,42 +14,49 @@
     "build:bex": "quasar build -m bex"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.0.1",
-    "@quasar/extras": "^1.0.0",
+    "@faker-js/faker": "^8.0.2",
+    "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
-    "core-js": "^3.6.5",
+    "events": "^3.3.0",
     "lodash": "^4.17.21",
     "pinia": "^2.0.11",
-    "quasar": "^2.6.0",
+    "quasar": "^2.12.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.0.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app-webpack": "^3.0.0",
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.0.0",
+    "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.0.0",
-    "eslint-webpack-plugin": "^3.1.1"
+    "postcss": "^8.4.14"
   },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
-  ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": "^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "main": "quasar.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jofftiquez/faker-js-ui.git"
+  },
+  "keywords": [
+    "faker",
+    "fakerjs",
+    "fakerjsui",
+    "javascript",
+    "browser-extension"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jofftiquez/faker-js-ui/issues"
+  },
+  "homepage": "https://github.com/jofftiquez/faker-js-ui#readme"
 }
