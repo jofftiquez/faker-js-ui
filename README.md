@@ -4,6 +4,8 @@
 
 Web App and Browser Extension for [Faker.js](https://fakerjs.dev/).
 
+Now available in [Chrome Webs Store](https://chrome.google.com/webstore/detail/fakerjs-ui/onahjokmphbfmdihclgeehajfnpkpaja)!
+
 ## Features in development
 
 - [ ] Auto-fill forms using appropriate Faker.js methods
