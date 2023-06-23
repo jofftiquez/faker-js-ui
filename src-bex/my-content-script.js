@@ -24,8 +24,6 @@ export default bexContent((bridge) => {
 
     const inputs = document.querySelectorAll(`input[type="${inputTypes.join('"], input[type="')}"]`);
 
-    console.warn('inputs', inputs);
-
     const fields = [];
 
     // Step 4: Iterate over each form control
@@ -60,7 +58,6 @@ export default bexContent((bridge) => {
   }
 
   bridge.on('fakerjsui.fillout', (event) => {
-    console.warn('data', fakerMethods);
     findFormFields();
   });
 });
