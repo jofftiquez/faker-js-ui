@@ -5,62 +5,57 @@ import { bexContent } from 'quasar/wrappers';
 import { fakerMethods } from 'src/constants/faker';
 
 export default bexContent((bridge) => {
-  const supportedFieldTypes = [
-    'text',
-    'email',
-    'password',
-    'number',
-    'tel',
-    'url',
-    'search',
-    'date',
-    'time',
-    'datetime-local',
-    'month',
-    'week',
-    'color',
-  ];
   function findMethod (str) {
     return fakerMethods.find((method) => {
       return method.regex.some((r) => r.test(str));
     });
   }
+
   function findFormFields () {
-    const forms = document.forms;
+    const inputTypes = [
+      'text',
+      'email',
+      'password',
+      'number',
+      'tel',
+      'url',
+      'search',
+    ];
 
-    const fields = []; // for later use
+    const inputs = document.querySelectorAll(`input[type="${inputTypes.join('"], input[type="')}"]`);
 
-    // Step 3: Iterate over each form
-    for (let i = 0; i < forms.length; i++) {
-      const form = forms[i];
+    console.warn('inputs', inputs);
 
-      // Step 4: Iterate over each form control
-      for (let j = 0; j < form.elements.length; j++) {
-        const field = form.elements[j];
+    const fields = [];
 
-        // Step 4: Extract relevant information
-        const fieldName = field.name;
-        const fieldType = field.type;
-        const fieldValue = field.value;
+    // Step 4: Iterate over each form control
+    for (let j = 0; j < inputs.length; j++) {
+      const field = inputs[j];
 
-        fields.push({
-          field,
-          name: fieldName,
-          type: fieldType,
-          value: fieldValue,
+      // Step 4: Extract relevant information
+      const fieldName = field.name;
+      const fieldType = field.type;
+      const fieldValue = field.value;
+
+      fields.push({
+        field,
+        name: fieldName,
+        type: fieldType,
+        value: fieldValue,
+      });
+
+      const fakerMethod = findMethod(field.name) ||
+        findMethod(field.id) ||
+        findMethod(field.placeholder) ||
+        findMethod(field.type) ||
+        findMethod('word');
+
+      if (!fakerMethod) continue;
+
+      fakerMethod.fakerFn()
+        .then((value) => {
+          field.value = value;
         });
-
-        if (!supportedFieldTypes.includes(field.type)) return;
-
-        const fakerMethod = findMethod(field.name) || findMethod(field.type) || findMethod('word');
-
-        if (!fakerMethod) continue;
-
-        fakerMethod.fakerFn()
-          .then((value) => {
-            field.value = value;
-          });
-      }
     }
   }
 
