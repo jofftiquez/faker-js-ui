@@ -85,6 +85,12 @@
 
   <q-page padding style="min-width: 400px">
     <div class="row">
+      <q-checkbox
+        v-model="multipleMode"
+        label="Enter Multiple Mode"
+      />
+    </div>
+    <div class="row">
       <div class="col-xs-12 q-pa-sm">
         <q-select
           ref="searchSelectRef"
@@ -94,10 +100,11 @@
           style="background-color: white;"
           placeholder="Full Name, Email, Avatar, etc."
           outlined
-          hide-selected
           return-object
           use-input
           autofocus
+          :hide-selected="!multipleMode"
+          :multiple="multipleMode"
           :options="options"
           @filter="filterFn"
         >
@@ -112,7 +119,7 @@
           <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <!-- TODO: remove condition when full bex feature is done -->
-            <q-item-section v-if="!isBex" avatar>
+            <q-item-section v-if="!isBex && !multipleMode" avatar>
               <q-btn
                 icon="more_vert"
                 round
@@ -270,14 +277,14 @@ export default {
 
     // Search
     const searchSelectRef = ref(null);
-    const searchModel = ref(null);
+    let searchModel = ref(null);
     const stringOptions = fakerMethods.map((method) => {
       return {
         label: method.searchNeedle,
         value: method,
       };
     });
-    const options = ref();
+    const options = ref([]);
     function filterFn (val, update) {
       if (val === '') {
         update(() => {
@@ -296,6 +303,14 @@ export default {
     watch(searchModel, (val) => {
       if (!val) return;
       invokeFakerFn(val.value);
+    });
+
+    // Multiple mode
+    const multipleMode = ref(false);
+    watch(multipleMode, (val) => {
+      if (val) searchModel = ref([]);
+      else searchModel = ref(null);
+      console.warn('searchModel', searchModel.value);
     });
 
     const firstGenerateDialog = ref(false);
@@ -364,6 +379,7 @@ export default {
       firstGenerateDialog,
       fillOutFields,
       isBex,
+      multipleMode,
     };
   },
 };
