@@ -26,13 +26,21 @@
             :rules="[v => !!v || 'This is required', v => v >= 0 || 'Must be greater than 0']"
           >
             <template v-slot:append>
-              <q-btn
-                label="Generate Bulk"
-                color="primary"
-                flat
-                no-caps
-                @click="beastModeAction()"
-              />
+              <q-btn-dropdown split label="Generate Bulk" color="primary" flat no-caps type="submit"
+               >
+                <q-list>
+                  <q-item clickable v-close-popup @click="downloadJSON()">
+                    <q-item-section>
+                      <q-item-label>Download as JSON</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup @click="downloadCSV()">
+                    <q-item-section>
+                      <q-item-label>Download as CSV</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
             </template>
           </q-input>
         </q-form>
@@ -161,12 +169,10 @@
               >
                 <q-list>
                   <div style="height: 250px; overflow: scroll">
-                    <template
-                      v-for="(action, actionIndex) in group"
-                      :key="actionIndex"
-                    >
-                      <q-separator/>
-                      <q-item
+                    <template v-for="(action, actionIndex) in group" :key="actionIndex">
+                      <q-separator />
+                      <q-item>
+                        <q-item-section
                         clickable
                         v-ripple
                         @click="invokeFakerFn(action)"
@@ -251,7 +257,8 @@ export default {
     }
     const beastModeFormRef = ref(null);
     const bulkMultiplier = ref(10);
-    async function beastModeAction () {
+
+    async function bulkResult () {
       if (!await beastModeFormRef.value.validate()) {
         return;
       }
@@ -264,8 +271,69 @@ export default {
         finalResult.push(result);
         i++;
       } while (i < bulkMultiplier.value);
-      await postActions({ name: selectedAction.value.name, result: finalResult });
+      return finalResult;
+    }
+
+    async function beastModeAction () {
+      await postActions({ name: selectedAction.value.name, result: await bulkResult() });
       beastModeDialog.value = false;
+    }
+
+    async function downloadJSON () {
+      const result = await bulkResult();
+      const jsonForm = JSON.stringify(result, null, 2);
+
+      const blob = new Blob([jsonForm], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'fakerui.json';
+      a.textContent = 'Download JSON';
+
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function convertArrayToCsv (array) {
+      const csvRows = [];
+      array.forEach(row => {
+        if (Array.isArray(row)) {
+          csvRows.push(row.map(value => {
+            if (typeof value === 'string') {
+              // enclosing strings in double quotes
+              return '"' + value.replace(/"/g, '""') + '"';
+            }
+            return value;
+          }).join(','));
+        } else {
+          csvRows.push(row);
+        }
+      });
+      return csvRows.join('\n');
+    }
+
+    async function downloadCSV () {
+      const result = await bulkResult();
+      console.log(result);
+      const csvData = convertArrayToCsv(result);
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      console.log(blob);
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'fakerui.csv';
+      a.textContent = 'Download CSV';
+
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
 
     // Search
@@ -358,6 +426,8 @@ export default {
       selectedAction,
       beastModeDialog,
       bulkMultiplier,
+      downloadCSV,
+      downloadJSON,
       beastModeAction,
       beastModeFormRef,
       rightDrawerOpen,
