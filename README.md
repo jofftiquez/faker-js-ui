@@ -2,6 +2,8 @@
 
 # Faker.js UI
 
+https://youtu.be/QYoqCh-wj_Q
+
 Web App and Browser Extension for [Faker.js](https://fakerjs.dev/).
 
 Now available in [Chrome Webs Store](https://chrome.google.com/webstore/detail/fakerjs-ui/onahjokmphbfmdihclgeehajfnpkpaja)!
