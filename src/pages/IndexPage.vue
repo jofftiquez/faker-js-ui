@@ -172,11 +172,11 @@
                     <template v-for="(action, actionIndex) in group" :key="actionIndex">
                       <q-separator />
                       <q-item>
-                        <q-item-section
-                        clickable
-                        v-ripple
-                        @click="invokeFakerFn(action)"
-                      >
+                        <!-- <q-item-section
+                          clickable
+                          v-ripple
+                          @click="invokeFakerFn(action)"
+                        > -->
                         <q-item-section>
                           <q-item-label class="text-weight-regular">{{ action.name }}</q-item-label>
                         </q-item-section>
