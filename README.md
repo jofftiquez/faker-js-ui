@@ -10,6 +10,9 @@ Now available in [Chrome Web Store](https://chrome.google.com/webstore/detail/fa
 
 The [app website](https://github.com/jofftiquez/fakerjsui.com) is also open for contribution.
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=jofftiquez/faker-js-ui@github)](https://gitads.dev/v1/ad-track?source=jofftiquez/faker-js-ui@github)
+
 ## Features in development
 
 - [X] Auto-fill forms using appropriate Faker.js methods
