@@ -1,8 +1,8 @@
 {
-  "name": "faker-js-ui-monorepo",
+  "name": "fakerjsui",
   "version": "1.0.0",
   "private": true,
-  "description": "Monorepo for Faker.js UI application and website",
+  "description": "Faker.js UI application and website",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
   "license": "MIT",
   "scripts": {

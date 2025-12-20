@@ -1,6 +1,6 @@
 {
   "name": "@faker-js-ui/app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple and intuitive UI for Faker.js",
   "productName": "Faker.js UI",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
