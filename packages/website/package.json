@@ -1,0 +1,64 @@
+{
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./ --fix",
+    "build": "nuxt build",
+    "postbuild": "cd .output/server && rimraf node_modules && pnpm install && cd .. && pnpm rename-server",
+    "rename-server": "node scripts/rename-server.js",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "serve": "firebase emulators:start",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "deploy": "pnpm deploy:functions && pnpm deploy:hosting",
+    "deploy:functions": "firebase deploy --only functions:nuxtSSRHandler -P faker-js-ui --force",
+    "deploy:hosting": "firebase deploy --only hosting -P faker-js-ui --force"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "@nuxt/devtools": "^0.5.3",
+    "@nuxt/image": "^1.8.0",
+    "@nuxtjs/partytown": "^1.3.0",
+    "@nuxtjs/tailwindcss": "^6.7.0",
+    "@tailwindcss/container-queries": "^0.1.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "eslint": "^8.29.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "nuxt": "^3.5.1",
+    "nuxt-gtag": "^0.5.7",
+    "nuxt-headlessui": "^1.1.1",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.0.1",
+    "@headlessui/vue": "^1.7.12",
+    "@heroicons/vue": "^2.0.16",
+    "@tailwindcss/typography": "^0.5.9",
+    "aos": "^3.0.0-beta.6",
+    "axios": "^1.4.0",
+    "daisyui": "^2.51.6",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.1",
+    "postcss-custom-properties": "^13.1.5",
+    "v-smooth-scroll": "^2.0.0-beta.2"
+  },
+  "name": "@faker-js-ui/website",
+  "description": "Faker.js UI",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jofftiquez/fakerjsui.org.git"
+  },
+  "author": "Joff Tiquez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jofftiquez/fakerjsui.org/issues"
+  },
+  "homepage": "https://github.com/jofftiquez/fakerjsui.org#readme"
+}

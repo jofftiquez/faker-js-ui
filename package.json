@@ -1,0 +1,30 @@
+{
+  "name": "faker-js-ui-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo for Faker.js UI application and website",
+  "author": "Joff Tiquez <jofftiquez@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev:app": "pnpm --filter @faker-js-ui/app dev:spa",
+    "dev:bex": "pnpm --filter @faker-js-ui/app dev:bex",
+    "dev:website": "pnpm --filter @faker-js-ui/website dev",
+    "build:app": "pnpm --filter @faker-js-ui/app build:spa",
+    "build:bex": "pnpm --filter @faker-js-ui/app build:bex",
+    "build:website": "pnpm --filter @faker-js-ui/website build",
+    "lint:app": "pnpm --filter @faker-js-ui/app lint",
+    "lint:website": "pnpm --filter @faker-js-ui/website lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jofftiquez/faker-js-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jofftiquez/faker-js-ui/issues"
+  },
+  "homepage": "https://github.com/jofftiquez/faker-js-ui#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@9.15.1"
+}

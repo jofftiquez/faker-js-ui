@@ -1,0 +1,59 @@
+# Dependencies
+node_modules
+
+# OS files
+.DS_Store
+.thumbs.db
+
+# Logs
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Lock files (use pnpm-lock.yaml only)
+yarn.lock
+package-lock.json
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist
+
+# Quasar
+.quasar
+
+# Nuxt
+.nuxt
+.nitro
+.cache
+.output
+
+# Firebase
+.firebase
+
+# Cordova
+/packages/fakerjsui/src-cordova/node_modules
+/packages/fakerjsui/src-cordova/platforms
+/packages/fakerjsui/src-cordova/plugins
+/packages/fakerjsui/src-cordova/www
+
+# Capacitor
+/packages/fakerjsui/src-capacitor/www
+/packages/fakerjsui/src-capacitor/node_modules
+
+# Playwright MCP
+.playwright-mcp

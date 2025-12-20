@@ -1,0 +1,51 @@
+{
+  "name": "Faker.js UI",
+  "version": "1.0.0",
+  "description": "Simple and intuitive UI for Faker.js",
+  "manifest_version": 3,
+  "icons": {
+    "16": "icons/icon-16x16.png",
+    "48": "icons/icon-48x48.png",
+    "128": "icons/icon-128x128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "action": {
+    "default_title": "Faker.js UI",
+    "default_popup": "www/index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "css": [
+        "assets/content.css"
+      ],
+      "js": [
+        "my-content-script.js"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "content_security_policy": "script-src 'self' safe-inline' https://www.googletagmanager.com; object-src 'self' https://www.googletagmanager.com"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ]
+}

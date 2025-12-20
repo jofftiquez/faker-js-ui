@@ -1,0 +1,31 @@
+/* Custom fonts here */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: white;
+  font-family: 'Inter', sans-serif;
+  @apply text-gray-900;
+}
+
+.btn {
+  @apply normal-case;
+}
+
+.title-hero {
+  @apply text-7xl text-gray-900;
+}
+
+.subtitle-hero {
+  @apply text-3xl text-gray-500;
+}
+
+.title-panel {
+  @apply text-6xl text-gray-900;
+}
+
+.subtitle-panel {
+  @apply text-3xl text-gray-500;
+}
