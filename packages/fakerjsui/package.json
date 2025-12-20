@@ -16,6 +16,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "@quasar/extras": "^1.16.4",
+    "@vercel/analytics": "^1.6.1",
     "axios": "^1.2.1",
     "events": "^3.3.0",
     "lodash": "^4.17.21",

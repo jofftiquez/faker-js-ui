@@ -5,45 +5,500 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <!-- create a basic style for all the forms inside this document -->
+  <title>Faker.js UI - Form Fill Test Page</title>
   <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    * {
+      box-sizing: border-box;
     }
 
-    input {
-      margin: 10px;
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      color: #555;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 10px;
+      margin-top: 30px;
+    }
+
+    .form-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
       padding: 10px;
-      width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: outline 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid #2196F3;
+      border-color: transparent;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .checkbox-group,
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-group label,
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: normal;
+    }
+
+    .checkbox-group input,
+    .radio-group input {
+      width: auto;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    #fill-btn {
+      background: #2196F3;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #fill-btn:hover {
+      background: #1976D2;
+    }
+
+    #status {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      display: none;
+      z-index: 1000;
     }
   </style>
 </head>
 
 <body>
-  <!-- create a form with all possible types of input elements -->
-  <form action="inputs.php" method="post">
-    <input type="text" name="text" placeholder="text">
-    <input type="password" name="password" placeholder="password">
-    <input type="email" name="email" placeholder="email">
-    <input type="number" name="number" placeholder="number">
-    <input type="date" name="date" placeholder="date">
-    <input type="time" name="time" placeholder="time">
-    <input type="color" name="color" placeholder="color">
-    <input type="range" name="range" placeholder="range">
-    <input type="file" name="file" placeholder="file">
-    <input type="tel" name="tel" placeholder="tel">
-    <input type="url" name="url" placeholder="url">
-    <!-- add more fields for personal details -->
-    <input type="text" name="first name" placeholder="first name">
-    <input type="text" name="middle name" placeholder="middle name">
-    <input type="text" name="last name" placeholder="surname">
-    <input type="text" name="age" placeholder="age">
-    <input type="submit" name="submit" value="submit">
+  <h1>Faker.js UI - Form Fill Test Page</h1>
+
+  <form id="test-form" onsubmit="return false;">
+    <!-- Personal Information -->
+    <div class="form-section">
+      <h2>Personal Information</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+        </div>
+        <div class="form-group">
+          <label for="middleName">Middle Name</label>
+          <input type="text" id="middleName" name="middleName" placeholder="Enter middle name">
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter password">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+        </div>
+        <div class="form-group">
+          <label for="website">Website</label>
+          <input type="url" id="website" name="website" placeholder="https://example.com">
+        </div>
+        <div class="form-group">
+          <label for="birthdate">Date of Birth</label>
+          <input type="date" id="birthdate" name="birthdate">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" name="jobTitle" placeholder="Your job title">
+        </div>
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" placeholder="Company name">
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Information -->
+    <div class="form-section">
+      <h2>Address Information</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="street">Street Address</label>
+          <input type="text" id="street" name="street" placeholder="123 Main St">
+        </div>
+        <div class="form-group">
+          <label for="address2">Apt/Suite</label>
+          <input type="text" id="address2" name="address2" placeholder="Apt 4B">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" placeholder="City">
+        </div>
+        <div class="form-group">
+          <label for="state">State/Province</label>
+          <input type="text" id="state" name="state" placeholder="State">
+        </div>
+        <div class="form-group">
+          <label for="zipCode">ZIP/Postal Code</label>
+          <input type="text" id="zipCode" name="zipCode" placeholder="12345">
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select id="country" name="country">
+            <option value="">Select country</option>
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="ca">Canada</option>
+            <option value="au">Australia</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Information -->
+    <div class="form-section">
+      <h2>Payment Information</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cardNumber">Credit Card Number</label>
+          <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456">
+        </div>
+        <div class="form-group">
+          <label for="cardExpiry">Expiry Date</label>
+          <input type="month" id="cardExpiry" name="cardExpiry">
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" name="cvv" placeholder="123">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Amount</label>
+          <input type="number" id="price" name="price" placeholder="0.00" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="form-section">
+      <h2>Additional Information</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="bio">Bio / About</label>
+          <textarea id="bio" name="bio" placeholder="Tell us about yourself..."></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Your message here..."></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Interests</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+            <label><input type="checkbox" name="interests" value="music"> Music</label>
+            <label><input type="checkbox" name="interests" value="travel"> Travel</label>
+            <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+            <label><input type="checkbox" name="interests" value="gaming"> Gaming</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Preferred Contact Method</label>
+          <div class="radio-group">
+            <label><input type="radio" name="contactMethod" value="email"> Email</label>
+            <label><input type="radio" name="contactMethod" value="phone"> Phone</label>
+            <label><input type="radio" name="contactMethod" value="sms"> SMS</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label><input type="checkbox" id="terms" name="terms"> I agree to the terms and conditions</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">Submit Form</button>
   </form>
 
+  <button id="fill-btn">Fill All Fields</button>
+  <div id="status"></div>
+
+  <script type="module">
+    import { faker } from 'https://esm.sh/@faker-js/faker@9';
+
+    // Field type to faker method mappings
+    const fieldTypeMappings = {
+      email: () => faker.internet.email(),
+      password: () => faker.internet.password(),
+      tel: () => faker.phone.number(),
+      url: () => faker.internet.url(),
+      date: () => formatDate(faker.date.anytime(), 'date'),
+      'datetime-local': () => formatDate(faker.date.anytime(), 'datetime-local'),
+      month: () => formatDate(faker.date.anytime(), 'month'),
+      number: () => faker.number.int({ min: 1, max: 1000 }),
+    };
+
+    // Field name patterns
+    const fieldNamePatterns = [
+      { patterns: [/first.?name/i, /fname/i], fn: () => faker.person.firstName() },
+      { patterns: [/last.?name/i, /lname/i, /surname/i], fn: () => faker.person.lastName() },
+      { patterns: [/full.?name/i], fn: () => faker.person.fullName() },
+      { patterns: [/middle.?name/i], fn: () => faker.person.middleName() },
+      { patterns: [/user.?name/i, /username/i], fn: () => faker.internet.userName() },
+      { patterns: [/e.?mail/i], fn: () => faker.internet.email() },
+      { patterns: [/phone/i, /mobile/i, /tel/i], fn: () => faker.phone.number() },
+      { patterns: [/website/i, /url/i], fn: () => faker.internet.url() },
+      { patterns: [/street/i, /address.?1/i], fn: () => faker.location.streetAddress() },
+      { patterns: [/address.?2/i, /apt/i, /suite/i], fn: () => faker.location.secondaryAddress() },
+      { patterns: [/city/i], fn: () => faker.location.city() },
+      { patterns: [/state/i, /province/i], fn: () => faker.location.state() },
+      { patterns: [/zip/i, /postal/i], fn: () => faker.location.zipCode() },
+      { patterns: [/country/i], fn: () => faker.location.country() },
+      { patterns: [/company/i, /org/i], fn: () => faker.company.name() },
+      { patterns: [/job.?title/i, /position/i], fn: () => faker.person.jobTitle() },
+      { patterns: [/birth/i, /dob/i], fn: () => formatDate(faker.date.birthdate(), 'date') },
+      { patterns: [/bio/i, /about/i], fn: () => faker.person.bio() },
+      { patterns: [/message/i, /comment/i, /note/i], fn: () => faker.lorem.paragraph() },
+      { patterns: [/title/i, /subject/i], fn: () => faker.lorem.sentence() },
+      { patterns: [/credit.?card/i, /card.?number/i], fn: () => faker.finance.creditCardNumber() },
+      { patterns: [/cvv/i, /cvc/i], fn: () => faker.finance.creditCardCVV() },
+      { patterns: [/price/i, /amount/i], fn: () => faker.commerce.price() },
+      { patterns: [/password/i, /pass/i], fn: () => faker.internet.password() },
+    ];
+
+    function formatDate(date, type) {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+
+      switch (type) {
+        case 'date': return `${year}-${month}-${day}`;
+        case 'datetime-local': return `${year}-${month}-${day}T${hours}:${minutes}`;
+        case 'month': return `${year}-${month}`;
+        default: return `${year}-${month}-${day}`;
+      }
+    }
+
+    function getFieldLabel(field) {
+      if (field.getAttribute('aria-label')) return field.getAttribute('aria-label');
+      if (field.id) {
+        const label = document.querySelector(`label[for="${field.id}"]`);
+        if (label) return label.textContent.trim();
+      }
+      const parentLabel = field.closest('label');
+      if (parentLabel) return parentLabel.textContent.trim();
+      return '';
+    }
+
+    function findMatchingGenerator(field) {
+      const fieldType = field.type || 'text';
+      const searchTexts = [field.name, field.id, field.placeholder, getFieldLabel(field)].filter(Boolean);
+
+      // Check type mappings
+      if (fieldTypeMappings[fieldType]) {
+        return fieldTypeMappings[fieldType];
+      }
+
+      // Check name patterns
+      for (const { patterns, fn } of fieldNamePatterns) {
+        for (const text of searchTexts) {
+          if (patterns.some(p => p.test(text))) {
+            return fn;
+          }
+        }
+      }
+
+      // Default
+      return () => faker.lorem.word();
+    }
+
+    function triggerInputEvents(field, value) {
+      const proto = field.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+      const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+      if (setter) setter.call(field, value);
+      else field.value = value;
+
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function highlightField(field) {
+      const orig = field.style.outline;
+      field.style.transition = 'outline 0.3s ease';
+      field.style.outline = '2px solid #4CAF50';
+      setTimeout(() => { field.style.outline = orig; }, 500);
+    }
+
+    async function fillAllFields() {
+      const status = document.getElementById('status');
+      let count = 0;
+
+      // Text inputs
+      const inputTypes = ['text', 'email', 'password', 'number', 'tel', 'url', 'search', 'date', 'datetime-local', 'month'];
+      const inputs = document.querySelectorAll(inputTypes.map(t => `input[type="${t}"]`).join(', '));
+
+      for (const field of inputs) {
+        if (field.disabled || field.readOnly) continue;
+        const generator = findMatchingGenerator(field);
+        const value = generator();
+        triggerInputEvents(field, String(value));
+        highlightField(field);
+        count++;
+      }
+
+      // Textareas
+      for (const field of document.querySelectorAll('textarea')) {
+        if (field.disabled || field.readOnly) continue;
+        const generator = findMatchingGenerator(field);
+        triggerInputEvents(field, String(generator()));
+        highlightField(field);
+        count++;
+      }
+
+      // Selects
+      for (const field of document.querySelectorAll('select')) {
+        if (field.disabled) continue;
+        const options = Array.from(field.options).filter(o => o.value);
+        if (options.length > 0) {
+          field.selectedIndex = options[Math.floor(Math.random() * options.length)].index;
+          field.dispatchEvent(new Event('change', { bubbles: true }));
+          highlightField(field);
+          count++;
+        }
+      }
+
+      // Checkboxes
+      for (const field of document.querySelectorAll('input[type="checkbox"]')) {
+        if (field.disabled) continue;
+        field.checked = Math.random() > 0.5;
+        field.dispatchEvent(new Event('change', { bubbles: true }));
+        count++;
+      }
+
+      // Radio buttons
+      const processedGroups = new Set();
+      for (const field of document.querySelectorAll('input[type="radio"]')) {
+        if (field.disabled || !field.name || processedGroups.has(field.name)) continue;
+        const radios = document.querySelectorAll(`input[type="radio"][name="${field.name}"]`);
+        radios[Math.floor(Math.random() * radios.length)].checked = true;
+        processedGroups.add(field.name);
+        count++;
+      }
+
+      status.textContent = `Filled ${count} fields!`;
+      status.style.display = 'block';
+      setTimeout(() => { status.style.display = 'none'; }, 3000);
+    }
+
+    document.getElementById('fill-btn').addEventListener('click', fillAllFields);
+  </script>
 </body>
 
 </html>

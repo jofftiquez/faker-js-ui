@@ -20,10 +20,6 @@ export default defineNuxtConfig({
     forward: ['dataLayer.push'],
   },
 
-  nitro: {
-    preset: 'firebase',
-  },
-
   gtag: {
     id: 'G-41F9X46SBS',
   },
@@ -45,11 +41,11 @@ export default defineNuxtConfig({
       ssr: false,
       mode: 'client',
     },
-    // {
-    //   src: '@/plugins/v-smooth-scroll',
-    //   ssr: true,
-    //   // mode: 'client',
-    // },
+    {
+      src: '@/plugins/analytics',
+      ssr: false,
+      mode: 'client',
+    },
   ],
 
   app: {
