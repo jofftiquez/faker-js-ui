@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm build:spa",
+  "outputDirectory": "dist/spa",
+  "framework": null
+}
