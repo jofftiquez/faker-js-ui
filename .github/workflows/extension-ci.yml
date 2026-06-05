@@ -47,6 +47,9 @@ jobs:
       - name: Validate Firefox build (web-ext lint)
         run: pnpm --filter @faker-js-ui/extension lint:firefox
 
+      - name: Unit tests (faker@10 registry audit + export shapes)
+        run: pnpm --filter @faker-js-ui/extension test:unit
+
       - name: Install Playwright Chromium + system deps
         run: pnpm --filter @faker-js-ui/extension exec playwright install --with-deps chromium
 

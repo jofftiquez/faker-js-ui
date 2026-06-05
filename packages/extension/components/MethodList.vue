@@ -18,6 +18,12 @@ const groups = computed(() => groupByApi(fakerMethods));
 </script>
 
 <template>
+  <!--
+    Collapsed by default, matching v1's BEX popup: v1 used
+    `:default-opened="!isMobile"`, and at the ~400px popup width `$q.screen.lt.md`
+    is true (mobile), so v1's groups were collapsed in the extension too. `type`
+    is "multiple" so users can open several groups at once.
+  -->
   <Accordion type="multiple" class="w-full" data-testid="method-list">
     <AccordionItem
       v-for="(methods, apiName) in groups"

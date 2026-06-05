@@ -6,7 +6,9 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
+  DialogClose,
 } from 'reka-ui';
+import { X } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 
 // First-generate review prompt (v1 parity).
@@ -22,6 +24,12 @@ const emit = defineEmits<{ 'update:open': [value: boolean] }>();
         data-testid="review-dialog"
         class="fixed left-1/2 top-1/2 z-50 w-[92%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background p-5 shadow-lg focus:outline-none"
       >
+        <DialogClose
+          class="absolute right-3 top-3 rounded-sm p-1 text-muted-foreground transition-colors hover:text-foreground focus:outline-none"
+          aria-label="Close"
+        >
+          <X class="size-4" />
+        </DialogClose>
         <DialogTitle class="text-lg font-semibold">
           We love feedback! 💜
         </DialogTitle>

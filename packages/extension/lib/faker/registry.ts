@@ -58,8 +58,11 @@ const casing: MethodParam = {
 // `datatype` (only `boolean` survives), legacy `image.*`, `company.bs*`/
 // `suffixes`/`companySuffix`, `finance.account`/`mask`/`maskNumber`,
 // `git.shortSha`, `internet.avatar`/`color`, `location.cityName`/`stateAbbr`/
-// `streetName`/`zipCodeByState`, `image.urlPlaceholder`/`urlLoremFlickr`(deprecated),
-// `string.fromCharacters`. `internet.userName` → `username`.
+// `streetName`/`zipCodeByState`, `image.urlPlaceholder` (removed) and
+// `image.urlLoremFlickr` (deprecated since v10.1 — emits a warning).
+// `internet.userName` → `username`. `string.fromCharacters` is dropped NOT
+// because it's deprecated (it still exists) but because it requires a mandatory
+// positional `characters` argument the options-object UI can't supply.
 export const fakerApis: FakerApiDef[] = [
   {
     emoji: '🛫',
@@ -353,9 +356,10 @@ export const fakerApis: FakerApiDef[] = [
       { name: 'jobType', tags: ['text'] },
       { name: 'lastName', tags: ['text', 'lastName', 'lname', 'last name', 'surname'] },
       { name: 'middleName', tags: ['text', 'middleName', 'mname', 'middle name'] },
-      { name: 'prefix', tags: ['text', 'mr', 'mrs', 'ms', 'dr', 'prof'] },
-      { name: 'sex', tags: ['text', 'sex'] },
-      { name: 'suffix', tags: ['text', 'phd', 'jr', 'sr', 'md'] },
+      // Full v1 tag sets preserved — these feed the auto-fill regex (Phase 6).
+      { name: 'prefix', tags: ['text', 'mr.', 'mrs.', 'ms.', 'miss', 'dr.', 'engineer', 'professor', 'sir', 'lady', 'lord', 'mr', 'mrs', 'ms', 'dr', 'prof'] },
+      { name: 'sex', tags: ['text', 'sx', 'sex'] },
+      { name: 'suffix', tags: ['text', 'phd', 'jr', 'sr', 'ii', 'iii', 'iv', 'v', '1st', '2nd', '3rd', '4th', '5th', 'thd', 'md', 'dds'] },
       { name: 'zodiacSign', tags: ['text', 'zodiac', 'sign', 'zodiac sign'] },
     ],
   },

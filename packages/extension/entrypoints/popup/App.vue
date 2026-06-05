@@ -40,6 +40,15 @@ function handleBulk (method: FakerMethod) {
 
     <ReviewDialog v-model:open="showReview" />
     <BulkDialog v-model:open="bulkOpen" :method="bulkMethod" />
-    <Toaster position="bottom-center" :duration="4000" rich-colors />
+    <Toaster
+      position="bottom-center"
+      :duration="4000"
+      rich-colors
+      :toast-options="{
+        classes: {
+          description: 'max-h-48 overflow-auto whitespace-pre-wrap break-words font-mono text-xs',
+        },
+      }"
+    />
   </div>
 </template>

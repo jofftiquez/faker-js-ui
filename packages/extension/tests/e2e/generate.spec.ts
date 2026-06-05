@@ -52,3 +52,45 @@ test('first generate shows the review prompt', async ({ context, extensionId }) 
 
   await page.close();
 });
+
+test('an array-returning method is copied as pretty JSON', async ({ context, extensionId }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const page = await context.newPage();
+  await page.addInitScript(() => localStorage.setItem('firstGenerate', 'true'));
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+
+  await page.getByTestId('method-search').fill('nearby');
+  await page
+    .getByTestId('search-results')
+    .locator('[data-method="Location - Nearby GPS Coordinate"]')
+    .click();
+
+  await expect(page.getByText(/copied to clipboard/i)).toBeVisible();
+  const arr = JSON.parse(await page.evaluate(() => navigator.clipboard.readText()));
+  expect(Array.isArray(arr)).toBe(true);
+  expect(arr).toHaveLength(2);
+
+  await page.close();
+});
+
+test('search keyboard navigation and empty state', async ({ context, extensionId }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const page = await context.newPage();
+  await page.addInitScript(() => localStorage.setItem('firstGenerate', 'true'));
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+
+  // Empty state for a non-matching query.
+  await page.getByTestId('method-search').fill('zzzznotathing');
+  await expect(page.getByTestId('search-no-results')).toBeVisible();
+
+  // Keyboard: type → Enter selects the active (first) result. Wait for the
+  // specific result so we don't race the debounce (the dropdown was already
+  // open from the empty-query case above).
+  await page.getByTestId('method-search').fill('First Name');
+  await expect(page.locator('[data-testid="search-results"] [data-method="Person - First Name"]')).toBeVisible();
+  await page.getByTestId('method-search').press('Enter');
+  await expect(page.getByText(/copied to clipboard/i)).toBeVisible();
+  expect((await page.evaluate(() => navigator.clipboard.readText())).length).toBeGreaterThan(0);
+
+  await page.close();
+});
