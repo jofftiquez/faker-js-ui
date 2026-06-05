@@ -1,0 +1,11 @@
+# WXT
+.output
+.wxt
+stats.html
+stats-*.json
+web-ext.config.ts
+
+# Playwright
+test-results
+playwright-report
+playwright/.cache

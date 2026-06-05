@@ -132,7 +132,9 @@ pnpm build:website
 ## Conventions
 
 - **ESLint:** v1 packages use StandardJS-with-semicolons (semicolons required, space before
-  function parens, trailing commas in multiline). v2 (`packages/extension`) uses TypeScript
-  with WXT's recommended lint; keep the semicolon + trailing-comma house style for continuity.
+  function parens, trailing commas in multiline). v2 (`packages/extension`) currently relies on
+  TypeScript strict + `vue-tsc` for correctness and follows the same house style (semicolons,
+  trailing commas) by hand; a dedicated ESLint flat config + `lint` script is a tracked
+  follow-up (added in Phase 2). The Firefox build is validated with `web-ext lint`.
 - **Adding a faker method (v2):** add a typed entry to the registry in `packages/extension`,
   and the programmatic audit must confirm `faker[api][method]` exists in faker@10.

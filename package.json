@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/jofftiquez/faker-js-ui#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
   },
   "packageManager": "pnpm@9.15.1"
 }

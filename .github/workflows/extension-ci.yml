@@ -1,0 +1,63 @@
+name: extension-ci
+
+# v2 extension: type-check, build (Chrome + Firefox MV3), and the Playwright
+# e2e gate. This is where the gate runs green on a runner with the system
+# dependencies Chromium needs (`playwright install --with-deps`).
+
+on:
+  push:
+    branches: [v2, main]
+    paths:
+      - 'packages/extension/**'
+      - '.github/workflows/extension-ci.yml'
+      - 'pnpm-lock.yaml'
+  pull_request:
+    paths:
+      - 'packages/extension/**'
+      - '.github/workflows/extension-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (extension + deps)
+        run: pnpm install --filter "@faker-js-ui/extension..."
+
+      - name: Type-check
+        run: pnpm --filter @faker-js-ui/extension compile
+
+      - name: Build (Chrome MV3)
+        run: pnpm --filter @faker-js-ui/extension build
+
+      - name: Build (Firefox MV3)
+        run: pnpm --filter @faker-js-ui/extension build:firefox
+
+      - name: Validate Firefox build (web-ext lint)
+        run: pnpm --filter @faker-js-ui/extension lint:firefox
+
+      - name: Install Playwright Chromium + system deps
+        run: pnpm --filter @faker-js-ui/extension exec playwright install --with-deps chromium
+
+      - name: e2e (Playwright gate)
+        run: pnpm --filter @faker-js-ui/extension test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: packages/extension/playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore
