@@ -104,12 +104,12 @@ $'Acceptance:\n- [x] CLAUDE.md captures: browser.* only, no hand-written backgro
 # ---- Phase 1 -------------------------------------------------------------
 P1="v2 — Phase 1: WXT scaffold"
 mk_issue "$P1" "[v2][P1] Scaffold packages/extension with WXT + Vue 3 + TS (strict)" "v2" \
-$'Acceptance:\n- [ ] packages/extension created in the pnpm workspace with WXT + @wxt-dev/module-vue.\n- [ ] TypeScript strict mode enabled.\n- [ ] Popup entrypoint renders a Vue 3 <script setup> component.'
+$'Acceptance:\n- [ ] packages/extension created in the Bun workspace with WXT + @wxt-dev/module-vue.\n- [ ] TypeScript strict mode enabled.\n- [ ] Popup entrypoint renders a Vue 3 <script setup> component.'
 mk_issue "$P1" "[v2][P1] Integrate Tailwind CSS + shadcn-vue with brand tokens" "v2" \
 $'Acceptance:\n- [ ] Tailwind configured; brand palette wired as theme tokens (primary #843bd7 etc.).\n- [ ] shadcn-vue (Reka UI) initialized; at least one component renders.'
 mk_issue "$P1" "[v2][P1] MV3 config: browser.* namespace, gecko.id, Chrome + Firefox targets" "v2" \
 $'Acceptance:\n- [ ] wxt.config produces MV3 for Chromium and Gecko.\n- [ ] browser.* used everywhere; no chrome.* anywhere.\n- [ ] browser_specific_settings.gecko.id set for Firefox.\n- [ ] No hand-written background service worker (WXT-generated).'
-mk_issue "$P1" "[v2][P1] dev/build/zip scripts wired into the pnpm workspace" "v2" \
+mk_issue "$P1" "[v2][P1] dev/build/zip scripts wired into the Bun workspace" "v2" \
 $'Acceptance:\n- [ ] dev (chrome), dev:firefox, build, zip scripts exist and run.\n- [ ] Root scripts/README updated to reference the v2 package.'
 mk_issue "$P1" "[v2][P1][e2e] Hello-world popup loads on Chrome & Firefox, no console errors" "v2,e2e" \
 $'Acceptance (DEFINITION OF DONE for Phase 1):\n- [ ] Playwright persistent context loads the unpacked build.\n- [ ] Popup renders on Chromium AND Firefox with zero console errors.\n- [ ] Spec is green in CI-able form.'

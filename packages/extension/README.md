@@ -16,14 +16,16 @@ non-negotiable; Playwright e2e is the per-phase gate.
 ## Commands
 
 ```bash
-pnpm --filter @faker-js-ui/extension dev          # WXT dev (Chromium)
-pnpm --filter @faker-js-ui/extension dev:firefox  # WXT dev (Firefox)
-pnpm --filter @faker-js-ui/extension build        # build (Chromium, MV3)
-pnpm --filter @faker-js-ui/extension build:firefox
-pnpm --filter @faker-js-ui/extension zip          # package zip
-pnpm --filter @faker-js-ui/extension zip:firefox  # package zip + sources (AMO)
-pnpm --filter @faker-js-ui/extension compile      # vue-tsc type-check
-pnpm --filter @faker-js-ui/extension test:e2e     # Playwright gate
+# from the repo root (Bun workspaces) — or run `bun run <script>` inside this dir
+bun --filter @faker-js-ui/extension dev          # WXT dev (Chromium)
+bun --filter @faker-js-ui/extension dev:firefox  # WXT dev (Firefox)
+bun --filter @faker-js-ui/extension build        # build (Chromium, MV3)
+bun --filter @faker-js-ui/extension build:firefox
+bun --filter @faker-js-ui/extension zip          # package zip
+bun --filter @faker-js-ui/extension zip:firefox  # package zip + sources (AMO)
+bun --filter @faker-js-ui/extension compile      # vue-tsc type-check
+bun --filter @faker-js-ui/extension test:unit    # vitest (registry audit, etc.)
+bun --filter @faker-js-ui/extension test:e2e     # Playwright gate
 ```
 
 Build output lands in `.output/chrome-mv3/` and `.output/firefox-mv3/`.

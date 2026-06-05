@@ -22,8 +22,8 @@
 
 ## Modes (legacy)
 
-- SPA: `pnpm _legacy_dev:app`
-- BEX: `pnpm _legacy_dev:bex`
+- SPA: `bun run _legacy_dev:app`
+- BEX: `bun run _legacy_dev:bex`
 
 The reusable fixture form `inputs.html` lives here and is used by the v2
 auto-fill e2e.

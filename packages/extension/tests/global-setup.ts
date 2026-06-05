@@ -9,7 +9,7 @@ const root = path.resolve(dir, '..');
 /**
  * The e2e fixture loads the unpacked Chromium MV3 build from `.output/`, which
  * is gitignored and absent on a clean checkout. Build it here if missing so
- * `pnpm test:e2e` works standalone instead of failing with a cryptic
+ * `bun run test:e2e` works standalone instead of failing with a cryptic
  * "failed to load extension" error.
  */
 export default function globalSetup () {

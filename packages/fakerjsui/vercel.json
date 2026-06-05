@@ -1,5 +1,6 @@
 {
-  "buildCommand": "pnpm build:spa",
+  "installCommand": "bun install",
+  "buildCommand": "bun run build:spa",
   "outputDirectory": "dist/spa",
   "framework": null
 }

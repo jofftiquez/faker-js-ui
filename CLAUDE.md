@@ -33,7 +33,7 @@ branding, and logo. A feature regression or visual drift is a failed migration.
 | UI layer | **Vue 3 (`<script setup>`) + TypeScript, strict.** |
 | UI components | **Tailwind CSS + shadcn-vue** (Reka UI primitives). **Quasar is dropped** — reproduce the v1 look pixel-for-pixel. |
 | Fake data | **`@faker-js/faker@10`**, imported from the **`/locale/en` single entrypoint**. |
-| Package manager | **pnpm** workspace (unchanged). |
+| Package manager | **Bun** workspaces (`bun install`, `bun --filter <pkg> <script>`). |
 | Tests | **Playwright e2e** — the per-phase gate. |
 
 **Hard rules (a reviewer rejects any violation):**
@@ -97,26 +97,28 @@ branding, and logo. A feature regression or visual drift is a failed migration.
 
 ## Development Commands
 
+Bun workspaces. Run from the repo root.
+
 ```bash
-pnpm install            # install all workspace deps (from root)
+bun install             # install all workspace deps (+ runs WXT prepare postinstall)
 
-# v1 legacy app (parity oracle — keep working)
-pnpm dev:app            # Quasar SPA
-pnpm dev:bex            # Quasar browser-extension mode
-pnpm build:app          # build Quasar SPA
-pnpm build:bex          # build Quasar extension
-pnpm lint:app
-
-# v2 extension (Phase 1+, packages/extension)
-pnpm --filter @faker-js-ui/extension dev          # WXT dev (Chrome)
-pnpm --filter @faker-js-ui/extension dev:firefox  # WXT dev (Firefox)
-pnpm --filter @faker-js-ui/extension build        # build
-pnpm --filter @faker-js-ui/extension zip          # package zip(s)
-pnpm --filter @faker-js-ui/extension test:e2e     # Playwright gate
+# v2 extension (packages/extension) — the shipping app
+bun run dev:ext             # WXT dev (Chromium)
+bun run dev:ext:firefox     # WXT dev (Firefox)
+bun run build:ext           # build Chrome MV3
+bun run build:ext:firefox   # build Firefox MV3
+bun run zip:ext             # both zips (+ Firefox AMO sources zip)
+bun run test:ext            # vitest unit + Playwright e2e gate
+# or target the package directly:
+bun --filter @faker-js-ui/extension compile   # vue-tsc type-check
 
 # website (deferred)
-pnpm dev:website
-pnpm build:website
+bun run dev:website
+bun run build:website
+
+# v1 legacy app (deprecated parity oracle)
+bun run _legacy_dev:app     # Quasar SPA
+bun run _legacy_build:bex   # Quasar extension
 ```
 
 ## Key v1 files (reference for the migration)

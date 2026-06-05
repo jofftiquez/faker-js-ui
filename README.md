@@ -31,30 +31,32 @@ Available in the [Chrome Web Store](https://chrome.google.com/webstore/detail/fa
 
 ## Development (v2 extension)
 
-```bash
-pnpm install
+This monorepo uses **[Bun](https://bun.sh)** workspaces.
 
-pnpm dev:ext            # WXT dev (Chromium)
-pnpm dev:ext:firefox    # WXT dev (Firefox)
-pnpm build:ext          # build Chrome MV3
-pnpm build:ext:firefox  # build Firefox MV3
-pnpm zip:ext            # package both zips (+ Firefox AMO sources zip)
-pnpm test:ext           # vitest unit + Playwright e2e gate
+```bash
+bun install
+
+bun run dev:ext            # WXT dev (Chromium)
+bun run dev:ext:firefox    # WXT dev (Firefox)
+bun run build:ext          # build Chrome MV3
+bun run build:ext:firefox  # build Firefox MV3
+bun run zip:ext            # package both zips (+ Firefox AMO sources zip)
+bun run test:ext           # vitest unit + Playwright e2e gate
 ```
 
 Build output lands in `packages/extension/.output/`:
 
 - **Chrome/Edge:** load `chrome-mv3/` unpacked (`chrome://extensions` → Load unpacked),
   or install `faker-js-ui-<version>-chrome.zip`.
-- **Firefox:** `pnpm --filter @faker-js-ui/extension start:firefox` (web-ext), or load
+- **Firefox:** `bun --filter @faker-js-ui/extension start:firefox` (web-ext), or load
   `firefox-mv3/` via `about:debugging`. AMO submission uses the
   `faker-js-ui-<version>-firefox.zip` + `-sources.zip`.
 
 ### Website
 
 ```bash
-pnpm dev:website
-pnpm build:website
+bun run dev:website
+bun run build:website
 ```
 
 ## Contributing

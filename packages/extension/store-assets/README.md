@@ -16,5 +16,5 @@ brand logo, and ship in every build (`web-ext lint` clean — no `ICON_SIZE`).
   promo tiles; upload `faker-js-ui-<version>-chrome.zip`.
 - **AMO (Firefox):** screenshots; upload `faker-js-ui-<version>-firefox.zip` plus
   the reproducible `faker-js-ui-<version>-sources.zip`. Both are produced by
-  `pnpm zip:ext`. The `browser_specific_settings.gecko.id` is
+  `bun run zip:ext`. The `browser_specific_settings.gecko.id` is
   `faker-js-ui@fakerjsui.org` (declares `data_collection_permissions: none`).
