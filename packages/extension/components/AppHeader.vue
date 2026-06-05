@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ExternalLink } from 'lucide-vue-next';
+import { ExternalLink } from '@lucide/vue';
 import { getAppVersion } from '@/lib/version';
 
 // `compact` reproduces v1's BEX (popup) affordances: smaller logo/title and the
