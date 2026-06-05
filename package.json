@@ -6,14 +6,21 @@
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:app": "pnpm --filter @faker-js-ui/app dev:spa",
-    "dev:bex": "pnpm --filter @faker-js-ui/app dev:bex",
+    "dev:ext": "pnpm --filter @faker-js-ui/extension dev",
+    "dev:ext:firefox": "pnpm --filter @faker-js-ui/extension dev:firefox",
+    "build:ext": "pnpm --filter @faker-js-ui/extension build",
+    "build:ext:firefox": "pnpm --filter @faker-js-ui/extension build:firefox",
+    "zip:ext": "pnpm --filter @faker-js-ui/extension zip && pnpm --filter @faker-js-ui/extension zip:firefox",
+    "test:ext": "pnpm --filter @faker-js-ui/extension test:unit && pnpm --filter @faker-js-ui/extension test:e2e",
+    "test:ext:unit": "pnpm --filter @faker-js-ui/extension test:unit",
     "dev:website": "pnpm --filter @faker-js-ui/website dev",
-    "build:app": "pnpm --filter @faker-js-ui/app build:spa",
-    "build:bex": "pnpm --filter @faker-js-ui/app build:bex",
     "build:website": "pnpm --filter @faker-js-ui/website build",
-    "lint:app": "pnpm --filter @faker-js-ui/app lint",
-    "lint:website": "pnpm --filter @faker-js-ui/website lint"
+    "lint:website": "pnpm --filter @faker-js-ui/website lint",
+    "_legacy_dev:app": "pnpm --filter @faker-js-ui/app dev:spa",
+    "_legacy_dev:bex": "pnpm --filter @faker-js-ui/app dev:bex",
+    "_legacy_build:app": "pnpm --filter @faker-js-ui/app build:spa",
+    "_legacy_build:bex": "pnpm --filter @faker-js-ui/app build:bex",
+    "_legacy_lint:app": "pnpm --filter @faker-js-ui/app lint"
   },
   "repository": {
     "type": "git",

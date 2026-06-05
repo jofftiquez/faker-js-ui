@@ -13,6 +13,7 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
+    "start:firefox": "web-ext run --source-dir .output/firefox-mv3",
     "compile": "vue-tsc --noEmit",
     "lint:firefox": "web-ext lint --source-dir .output/firefox-mv3 --no-config-discovery",
     "audit:faker": "node scripts/audit-faker.mjs",

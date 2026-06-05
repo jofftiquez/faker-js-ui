@@ -20,6 +20,12 @@ export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
   manifestVersion: 3,
 
+  // Clean artifact names: faker-js-ui-<version>-<browser>.zip (+ -sources.zip
+  // for Firefox/AMO).
+  zip: {
+    name: 'faker-js-ui',
+  },
+
   // Add the Tailwind v4 Vite plugin into WXT's Vite pipeline.
   vite: () => ({
     plugins: [tailwindcss()],
@@ -39,7 +45,10 @@ export default defineConfig({
     action: {
       default_title: 'Faker.js UI',
     },
-    permissions: ['storage', 'activeTab', 'scripting'],
+    // Minimal permissions: the popup messages the active tab's auto-fill content
+    // script. `storage` isn't needed (we use localStorage); `scripting` would
+    // only be needed for the lazy-injection optimisation tracked separately.
+    permissions: ['activeTab'],
     host_permissions: ['*://*/*'],
     // Firefox (AMO) requirements. strict_min_version is re-validated in Phase 6
     // when the auto-fill content script lands; packaging is finalised in Phase 7.

@@ -1,6 +1,11 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
-import { findMatchingMethod, formatDateValue, triggerInputEvents } from '@/lib/autofill';
+import {
+  findMatchingMethod,
+  formatDateValue,
+  triggerInputEvents,
+  findAndFillFormFields,
+} from '@/lib/autofill';
 
 function input (attrs: Record<string, string>): HTMLInputElement {
   const el = document.createElement('input');
@@ -53,6 +58,19 @@ describe('autofill field → faker@10 method mapping', () => {
     expect(formatDateValue(d, 'date')).toBe('2020-05-15');
     expect(formatDateValue(d, 'month')).toBe('2020-05');
     expect(formatDateValue(d, 'datetime-local')).toBe('2020-05-15T09:30');
+  });
+
+  it('fills a TEXT field that maps to a date method with an unquoted date', async () => {
+    document.body.innerHTML = '<input type="text" name="birthday" id="bday">';
+    const el = document.getElementById('bday') as HTMLInputElement;
+    // jsdom has no layout, so offsetParent is always null; mock it visible.
+    Object.defineProperty(el, 'offsetParent', { get: () => document.body, configurable: true });
+
+    await findAndFillFormFields();
+
+    expect(el.value).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(el.value).not.toContain('"');
+    document.body.innerHTML = '';
   });
 
   it('triggerInputEvents sets the value and dispatches input', () => {

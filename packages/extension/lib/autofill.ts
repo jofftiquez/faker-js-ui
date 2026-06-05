@@ -65,11 +65,18 @@ function methodFor (api: string, name: string): FakerMethod | undefined {
   return fakerMethods.find((m) => m.api === api && m.methodName === name);
 }
 
+/** CSS.escape with a fallback (CSS is absent in some non-browser contexts). */
+function escapeSelector (value: string): string {
+  return typeof CSS !== 'undefined' && CSS.escape
+    ? CSS.escape(value)
+    : value.replace(/["\\]/g, '\\$&');
+}
+
 export function getFieldLabel (field: HTMLElement): string {
   const aria = field.getAttribute('aria-label');
   if (aria) return aria;
   if (field.id) {
-    const label = document.querySelector(`label[for="${CSS.escape(field.id)}"]`);
+    const label = document.querySelector(`label[for="${escapeSelector(field.id)}"]`);
     if (label?.textContent) return label.textContent.trim();
   }
   const parentLabel = field.closest('label');
@@ -192,7 +199,12 @@ export async function findAndFillFormFields (): Promise<number> {
     if (!method) continue;
     try {
       let value = await method.fakerFn();
-      if (['date', 'datetime-local', 'month', 'time'].includes(field.type)) {
+      const isDateInput = ['date', 'datetime-local', 'month', 'time'].includes(field.type);
+      if (value instanceof Date) {
+        // Format Dates for both date-typed and plain text inputs (a /date/ or
+        // /birth/ text field maps to a Date method) — never JSON-quote them.
+        value = formatDateValue(value, isDateInput ? field.type : 'date');
+      } else if (isDateInput) {
         value = formatDateValue(value, field.type);
       }
       if (typeof value === 'object' && value !== null) value = JSON.stringify(value);
@@ -233,6 +245,7 @@ export async function findAndFillFormFields (): Promise<number> {
     if (field.disabled || !isVisible(field)) continue;
     field.checked = Math.random() > 0.5;
     field.dispatchEvent(new Event('change', { bubbles: true }));
+    highlightField(field);
     filled++;
   }
 
@@ -240,7 +253,7 @@ export async function findAndFillFormFields (): Promise<number> {
     if (field.disabled || !isVisible(field)) continue;
     const name = field.name;
     if (!name || processedRadioGroups.has(name)) continue;
-    const group = document.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"]`);
+    const group = document.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${escapeSelector(name)}"]`);
     if (!group.length) continue;
     const pick = group[Math.floor(Math.random() * group.length)]!;
     pick.checked = true;
