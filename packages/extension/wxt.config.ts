@@ -1,5 +1,10 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
+
+const pkg = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as { version: string };
 
 // WXT configuration.
 //
@@ -18,6 +23,11 @@ export default defineConfig({
   // Add the Tailwind v4 Vite plugin into WXT's Vite pipeline.
   vite: () => ({
     plugins: [tailwindcss()],
+    // Single source of truth for the version shown outside an extension
+    // context (e.g. when popup.html is loaded directly in a test/preview).
+    define: {
+      __APP_VERSION__: JSON.stringify(pkg.version),
+    },
   }),
 
   // Per-browser manifest so Firefox-only AMO metadata never leaks into the

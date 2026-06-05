@@ -57,6 +57,16 @@
   --ring: #b884f4;
 }
 
+/*
+ * v1 parity: Quasar ships Roboto as the app font. This must be a NON-inline
+ * @theme so the `--font-sans` variable is emitted — Tailwind's preflight sets
+ * the document font via `var(--font-sans)`, which would otherwise fall back to
+ * the default stack.
+ */
+@theme {
+  --font-sans: 'Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -98,6 +108,17 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
+
+/*
+ * Chromium injects a default `body { font-family: ... }` into extension popup
+ * pages that beats Tailwind's LAYERED base rule, leaving the popup on the
+ * system font instead of Roboto. Re-assert it UNLAYERED with `html body`
+ * (higher specificity) so Roboto wins in the popup regardless of source order.
+ */
+html body {
+  font-family: var(--font-sans);
+}
+
