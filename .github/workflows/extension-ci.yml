@@ -1,0 +1,61 @@
+name: extension-ci
+
+# v2 extension: type-check, build (Chrome + Firefox MV3), and the Playwright
+# e2e gate. This is where the gate runs green on a runner with the system
+# dependencies Chromium needs (`playwright install --with-deps`).
+
+on:
+  push:
+    branches: [v2, main]
+    paths:
+      - 'packages/extension/**'
+      - '.github/workflows/extension-ci.yml'
+      - 'bun.lock'
+  pull_request:
+    paths:
+      - 'packages/extension/**'
+      - '.github/workflows/extension-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install (runs the WXT prepare postinstall)
+        run: bun install --frozen-lockfile
+
+      - name: Type-check
+        run: bun --filter @faker-js-ui/extension compile
+
+      - name: Build (Chrome MV3)
+        run: bun --filter @faker-js-ui/extension build
+
+      - name: Build (Firefox MV3)
+        run: bun --filter @faker-js-ui/extension build:firefox
+
+      - name: Validate Firefox build (web-ext lint)
+        run: bun --filter @faker-js-ui/extension lint:firefox
+
+      - name: Unit tests (faker@10 registry audit + export shapes)
+        run: bun --filter @faker-js-ui/extension test:unit
+
+      - name: Install Playwright Chromium + system deps
+        run: cd packages/extension && bunx playwright install --with-deps chromium
+
+      - name: e2e (Playwright gate)
+        run: bun --filter @faker-js-ui/extension test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: packages/extension/playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore

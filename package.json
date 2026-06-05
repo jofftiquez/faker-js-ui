@@ -5,15 +5,25 @@
   "description": "Faker.js UI application and website",
   "author": "Joff Tiquez <jofftiquez@gmail.com>",
   "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev:app": "pnpm --filter @faker-js-ui/app dev:spa",
-    "dev:bex": "pnpm --filter @faker-js-ui/app dev:bex",
-    "dev:website": "pnpm --filter @faker-js-ui/website dev",
-    "build:app": "pnpm --filter @faker-js-ui/app build:spa",
-    "build:bex": "pnpm --filter @faker-js-ui/app build:bex",
-    "build:website": "pnpm --filter @faker-js-ui/website build",
-    "lint:app": "pnpm --filter @faker-js-ui/app lint",
-    "lint:website": "pnpm --filter @faker-js-ui/website lint"
+    "dev:ext": "bun --filter @faker-js-ui/extension dev",
+    "dev:ext:firefox": "bun --filter @faker-js-ui/extension dev:firefox",
+    "build:ext": "bun --filter @faker-js-ui/extension build",
+    "build:ext:firefox": "bun --filter @faker-js-ui/extension build:firefox",
+    "zip:ext": "bun --filter @faker-js-ui/extension zip && bun --filter @faker-js-ui/extension zip:firefox",
+    "test:ext": "bun --filter @faker-js-ui/extension test:unit && bun --filter @faker-js-ui/extension test:e2e",
+    "test:ext:unit": "bun --filter @faker-js-ui/extension test:unit",
+    "dev:website": "bun --filter @faker-js-ui/website dev",
+    "build:website": "bun --filter @faker-js-ui/website build",
+    "lint:website": "bun --filter @faker-js-ui/website lint",
+    "_legacy_dev:app": "bun --filter @faker-js-ui/app dev:spa",
+    "_legacy_dev:bex": "bun --filter @faker-js-ui/app dev:bex",
+    "_legacy_build:app": "bun --filter @faker-js-ui/app build:spa",
+    "_legacy_build:bex": "bun --filter @faker-js-ui/app build:bex",
+    "_legacy_lint:app": "bun --filter @faker-js-ui/app lint"
   },
   "repository": {
     "type": "git",
@@ -24,7 +34,12 @@
   },
   "homepage": "https://github.com/jofftiquez/faker-js-ui#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
   },
-  "packageManager": "pnpm@9.15.1"
+  "trustedDependencies": [
+    "@parcel/watcher",
+    "esbuild",
+    "vue-demi",
+    "wxt"
+  ]
 }

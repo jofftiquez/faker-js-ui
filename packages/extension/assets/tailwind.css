@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * shadcn-vue (Tailwind v4) theme tokens.
+ * Neutral base, with the Faker.js UI brand palette layered on top.
+ * Brand tokens are non-negotiable — they must match v1 exactly
+ * (see packages/fakerjsui/src/css/quasar.variables.scss).
+ */
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* Brand primary #843bd7 */
+  --primary: #843bd7;
+  --primary-foreground: #ffffff;
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: #ce5a68;
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: #843bd7;
+}
+
+/*
+ * No `.dark` token block: v1 is light-only (Quasar dark mode was never enabled)
+ * and the brand `--primary` is pinned to #843bd7 by the hard rules. A dark theme
+ * is intentionally out of scope so the brand primary cannot drift. The `dark:`
+ * variant stays defined but never activates (no `.dark` class is applied).
+ */
+
+/*
+ * v1 parity: Quasar ships Roboto as the app font. This must be a NON-inline
+ * @theme so the `--font-sans` variable is emitted — Tailwind's preflight sets
+ * the document font via `var(--font-sans)`, which would otherwise fall back to
+ * the default stack.
+ */
+@theme {
+  --font-sans: 'Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Faker.js UI brand palette (v1 parity) */
+  --color-brand: #843bd7;
+  --color-brand-secondary: #5de6d8;
+  --color-brand-accent: #b884f4;
+  --color-brand-positive: #6ecb84;
+  --color-brand-negative: #ce5a68;
+  --color-brand-info: #3bacc3;
+  --color-brand-warning: #eabb3c;
+  --color-brand-page: rgba(189, 233, 239, 0.5);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/*
+ * Chromium injects a default `body { font-family: ... }` into extension popup
+ * pages that beats Tailwind's LAYERED base rule, leaving the popup on the
+ * system font instead of Roboto. Re-assert it UNLAYERED with `html body`
+ * (higher specificity) so Roboto wins in the popup regardless of source order.
+ */
+html body {
+  font-family: var(--font-sans);
+}
+

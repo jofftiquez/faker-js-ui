@@ -2,99 +2,142 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Every agent MUST read this file at the start of every phase.** The v2 standing
+> constraints below are non-negotiable and override default behavior.
+
 ## Project Overview
 
-This is a monorepo for the Faker.js UI project, containing:
+Monorepo for the **Faker.js UI** project. A visual interface for generating fake data,
+shipped as a web SPA **and** a cross-browser extension.
 
-- **`packages/fakerjsui`** (`@faker-js-ui/app`) - Quasar/Vue 3 application that serves as both a web SPA and Chrome browser extension
-- **`packages/website`** (`@faker-js-ui/website`) - Nuxt 3 marketing website deployed to fakerjsui.org
+- **`packages/fakerjsui`** (`@faker-js-ui/app`) — **v1 (legacy)** Quasar/Vue 3 app + Chrome
+  extension (Quasar BEX). **Kept building as the visual-parity oracle until the v2 cutover
+  (Phase 7). Do not delete or break it.**
+- **`packages/extension`** (`@faker-js-ui/extension`) — **v2 (new)** WXT + Vue 3 + TS
+  extension. Created in Phase 1. This is where new work happens.
+- **`packages/website`** (`@faker-js-ui/website`) — Nuxt 3 marketing site (fakerjsui.org).
+  **Deferred** to optional Phase 8.
 
-## Monorepo Structure
+## v2 migration — standing constraints (READ FIRST)
 
-```
-faker-js-ui/
-├── packages/
-│   ├── fakerjsui/     # Main app (Quasar SPA + Chrome Extension)
-│   └── website/       # Marketing website (Nuxt 3)
-├── pnpm-workspace.yaml
-├── package.json       # Root workspace config
-└── CLAUDE.md
-```
+We are migrating to **v2 (`2.0.0`)** on the **`v2` branch** (never `main` until ready).
+This is a **migration, not a rewrite**: preserve every v1 feature, the UI/UX, colors,
+branding, and logo. A feature regression or visual drift is a failed migration.
+
+**Target stack (v2):**
+
+| Concern | Decision |
+|---|---|
+| Extension framework | **WXT** (Vite-based, MV3, cross-browser). Replaces Quasar BEX. |
+| Targets | **Chrome/Edge (Chromium) + Firefox (Gecko)**, both **MV3**. No Safari. |
+| UI layer | **Vue 3 (`<script setup>`) + TypeScript, strict.** |
+| UI components | **Tailwind CSS + shadcn-vue** (Reka UI primitives). **Quasar is dropped** — reproduce the v1 look pixel-for-pixel. |
+| Fake data | **`@faker-js/faker@10`**, imported from the **`/locale/en` single entrypoint**. |
+| Package manager | **Bun** workspaces (`bun install`, `bun --filter <pkg> <script>`). |
+| Tests | **Playwright e2e** — the per-phase gate. |
+
+**Hard rules (a reviewer rejects any violation):**
+
+1. **`browser.*` only — never `chrome.*`.** This is what makes Firefox work from one
+   codebase. WXT provides the polyfill.
+2. **No hand-written background service worker.** Let WXT generate the background/manifest
+   per browser.
+3. **faker v10 correctness.** Methods are invoked dynamically by string, so a removed
+   method fails at call time, not build time. Every registry entry must be proven to exist
+   via a programmatic audit (`typeof faker[api][method] === 'function'`). Known v8→v10
+   removals/renames to fix:
+   - `faker.random.*` — **module removed** → `string.alpha`/`alphanumeric`/`numeric`, `lorem.word`/`words`.
+   - `faker.datatype.*` — only `boolean` survives → `number.*`, `string.*`.
+   - `faker.image.*` legacy (animals, business, cats, city, fashion, food, image, imageUrl, nature, nightlife, people, sports, technics, transport) — **removed** → keep `avatar`, `dataUri`, `url`, `urlLoremFlickr`, `urlPicsumPhotos`, `urlPlaceholder`.
+   - `faker.company.bs*` + `suffixes` — **removed** → `buzz*` equivalents.
+   - `faker.internet.userName` → **`username`** (also used by auto-fill).
+   - `faker.internet.avatar`/`color` → `image.avatar` / `color.rgb`.
+4. **Branding is non-negotiable.** Brand tokens (must match v1 exactly):
+   - primary `#843bd7`, secondary `#5de6d8`, accent `#b884f4`
+   - dark `#1D1D1D`, dark-page `#121212`
+   - positive `#6ecb84`, negative `#ce5a68`, info `#3bacc3`, warning `#eabb3c`
+   - app background `rgba(189, 233, 239, 0.5)` (pale cyan); header `bg-primary`, white text, 70px
+   - Logo: `packages/fakerjsui/src/assets/images/faker-js-ui-logo.png`. Fonts: Roboto + Material Icons.
+5. **Visual parity with v1 is an acceptance criterion**, verified by Playwright screenshot
+   comparison against the v1 build (the oracle).
+6. **The auto-fill content script is the signature feature.** Protect it. Logic ports
+   cleanly; replace the Quasar `$q.bex` bridge with WXT messaging.
+
+## Working method
+
+- **Agent teams, max 3 concurrent agents — never more.** Per phase: **Implementer**
+  (migration code), **E2E author** (Playwright specs written against the acceptance text),
+  **Reviewer/Integrator** (features + visual parity + the hard rules above, then integrates).
+  Parallelize only within a phase where sub-tasks are independent; phases run in order.
+- **Playwright e2e is the gate.** A phase is done only when its e2e spec is green on the
+  Chrome build (cross-browser phases also on Firefox). Drive the extension via a Playwright
+  persistent context with the unpacked build loaded. Auto-fill is tested against
+  `packages/fakerjsui/inputs.html`.
+- **GitHub is the source of truth for progress** — not local TODOs or chat. One milestone
+  per phase (`v2 — Phase N`); issues per task + a dedicated e2e issue per phase, with
+  acceptance criteria as the definition of done. Commits/PRs reference issues (`Fixes #NN`).
+  An issue closes only when merged **and** its phase e2e is green; a milestone closes when
+  all its issues do. Tracker is (re)seeded by `scripts/bootstrap-tracker.sh`.
+- **Confirm before destructive changes.** Present plans/decisions and wait for go-ahead
+  before large-scale edits.
+
+## Phased plan
+
+| Phase | Goal | e2e acceptance |
+|---|---|---|
+| 0 | Scan, decisions, `v2` branch, tracker, this file | Findings + decisions + branch + milestones/issues + CLAUDE.md |
+| 1 | WXT scaffold (`packages/extension`): Vue 3 + TS + Tailwind + shadcn-vue, MV3, `browser.*` | Chrome **and** Firefox load a hello-world popup, no console errors; dev/build/zip scripts |
+| 2 | UI shell + branding parity | v2 popup/SPA visually indistinguishable from v1 (screenshot) |
+| 3 | Generate + preview + copy on faker@10 | every v1 method generates; copy works; no faker deprecation warnings |
+| 4 | Bulk generation + JSON/CSV export | bulk rows correct; JSON & CSV match v1 shape |
+| 5 | Per-method argument prompts | param UI matches v1 and respects inputs |
+| 6 | Auto-fill, cross-browser | fixture form filled with type-appropriate values on Chrome + Firefox |
+| 7 | Cross-browser package & parity | `wxt zip -b chrome`/`-b firefox` + Firefox sources zip + `gecko.id`; full suite green both engines; store assets |
+| 8 | (optional) Website upgrade | Nuxt latest still builds; shared tokens reconciled |
 
 ## Development Commands
 
+Bun workspaces. Run from the repo root.
+
 ```bash
-# Install all dependencies (from root)
-pnpm install
+bun install             # install all workspace deps (+ runs WXT prepare postinstall)
 
-# Development
-pnpm dev:app          # Run the Quasar app in SPA mode
-pnpm dev:bex          # Run the Quasar app in browser extension mode
-pnpm dev:website      # Run the Nuxt website
+# v2 extension (packages/extension) — the shipping app
+bun run dev:ext             # WXT dev (Chromium)
+bun run dev:ext:firefox     # WXT dev (Firefox)
+bun run build:ext           # build Chrome MV3
+bun run build:ext:firefox   # build Firefox MV3
+bun run zip:ext             # both zips (+ Firefox AMO sources zip)
+bun run test:ext            # vitest unit + Playwright e2e gate
+# or target the package directly:
+bun --filter @faker-js-ui/extension compile   # vue-tsc type-check
 
-# Production builds
-pnpm build:app        # Build the Quasar SPA
-pnpm build:bex        # Build the Chrome extension
-pnpm build:website    # Build the Nuxt website
+# website (deferred)
+bun run dev:website
+bun run build:website
 
-# Linting
-pnpm lint:app         # Lint the Quasar app
-pnpm lint:website     # Lint the website
-
-# Run commands in specific workspaces
-pnpm --filter @faker-js-ui/app <command>
-pnpm --filter @faker-js-ui/website <command>
+# v1 legacy app (deprecated parity oracle)
+bun run _legacy_dev:app     # Quasar SPA
+bun run _legacy_build:bex   # Quasar extension
 ```
 
-## Package Details
+## Key v1 files (reference for the migration)
 
-### @faker-js-ui/app (packages/fakerjsui)
+- `packages/fakerjsui/src/constants/faker.js` — the method registry (becomes a typed TS registry in v2).
+- `packages/fakerjsui/src/pages/IndexPage.vue` — search, grouped lists, bulk gen, export, copy/preview.
+- `packages/fakerjsui/src/components/ParameterDialog.vue` / `ParameterField.vue` — per-method argument prompts.
+- `packages/fakerjsui/src/layouts/MainLayout.vue` — header/logo/version badge/branding.
+- `packages/fakerjsui/src-bex/my-content-script.js` — auto-fill field→method mapping (signature feature).
+- `packages/fakerjsui/inputs.html` — ready-made auto-fill fixture form (reuse for Playwright).
+- `packages/fakerjsui/src/css/quasar.variables.scss` — brand color tokens.
 
-The main Faker.js UI application providing a visual interface for generating fake data.
+## Conventions
 
-**Key files:**
-- `src/constants/faker.js` - Central Faker.js method registry
-- `src/pages/IndexPage.vue` - Main UI with search, bulk generation, and export
-- `src-bex/my-content-script.js` - Browser extension content script for form auto-fill
-
-**Modes:**
-- SPA Mode: Standalone web app
-- BEX Mode: Chrome browser extension with form auto-fill
-
-### @faker-js-ui/website (packages/website)
-
-Marketing and documentation website for Faker.js UI.
-
-**Key files:**
-- `nuxt.config.js` - Nuxt configuration with Firebase deployment
-- `src/` - Nuxt pages and components
-- `tailwind.config.js` - Tailwind CSS configuration with DaisyUI
-
-## Key Patterns
-
-### Adding New Faker Methods
-
-Add entries to the `fakerAPIs` array in `packages/fakerjsui/src/constants/faker.js`:
-```javascript
-{
-  emoji: '...',
-  api: 'apiName',     // Must match faker[apiName]
-  methods: [
-    {
-      name: 'methodName',
-      tags: ['searchable', 'terms'],
-      params: [],
-    }
-  ],
-  generateMethods: function () {
-    return generateMethods(this.api, this.methods);
-  }
-}
-```
-
-### ESLint Configuration
-
-Both packages use StandardJS style with semicolons:
-- Semicolons required
-- Space before function parentheses
-- Trailing commas in multiline
+- **ESLint:** v1 packages use StandardJS-with-semicolons (semicolons required, space before
+  function parens, trailing commas in multiline). v2 (`packages/extension`) currently relies on
+  TypeScript strict + `vue-tsc` for correctness and follows the same house style (semicolons,
+  trailing commas) by hand; a dedicated ESLint flat config + `lint` script is a tracked
+  follow-up for the Phase 7 polish pass (not yet wired). The Firefox build is validated with
+  `web-ext lint`.
+- **Adding a faker method (v2):** add a typed entry to the registry in `packages/extension`,
+  and the programmatic audit must confirm `faker[api][method]` exists in faker@10.
