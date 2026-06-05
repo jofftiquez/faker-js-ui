@@ -36,7 +36,7 @@ const appUrl = 'https://app.fakerjsui.org?ref=fakerjsui-bex';
       </span>
       <span
         data-testid="app-version"
-        class="ml-2 rounded bg-white px-1.5 py-0.5 text-xs font-normal text-primary"
+        class="ml-2 rounded bg-white px-1.5 py-0.5 text-xs font-normal leading-none text-primary"
       >v{{ version }}</span>
     </div>
 

@@ -36,26 +36,12 @@
   --ring: #843bd7;
 }
 
-.dark {
-  --background: #121212;
-  --foreground: oklch(0.985 0 0);
-  --card: #1d1d1d;
-  --card-foreground: oklch(0.985 0 0);
-  --popover: #1d1d1d;
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #b884f4;
-  --primary-foreground: #1d1d1d;
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: #ce5a68;
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: #b884f4;
-}
+/*
+ * No `.dark` token block: v1 is light-only (Quasar dark mode was never enabled)
+ * and the brand `--primary` is pinned to #843bd7 by the hard rules. A dark theme
+ * is intentionally out of scope so the brand primary cannot drift. The `dark:`
+ * variant stays defined but never activates (no `.dark` class is applied).
+ */
 
 /*
  * v1 parity: Quasar ships Roboto as the app font. This must be a NON-inline

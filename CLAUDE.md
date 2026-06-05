@@ -135,6 +135,7 @@ pnpm build:website
   function parens, trailing commas in multiline). v2 (`packages/extension`) currently relies on
   TypeScript strict + `vue-tsc` for correctness and follows the same house style (semicolons,
   trailing commas) by hand; a dedicated ESLint flat config + `lint` script is a tracked
-  follow-up (added in Phase 2). The Firefox build is validated with `web-ext lint`.
+  follow-up for the Phase 7 polish pass (not yet wired). The Firefox build is validated with
+  `web-ext lint`.
 - **Adding a faker method (v2):** add a typed entry to the registry in `packages/extension`,
   and the programmatic audit must confirm `faker[api][method]` exists in faker@10.

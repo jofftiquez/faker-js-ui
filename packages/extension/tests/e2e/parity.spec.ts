@@ -25,8 +25,19 @@ test('branding matches v1 (colors, header, version badge, logo, font)', async ({
   await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
   await expect(badge).toHaveCSS('color', PRIMARY);
 
-  // Logo present in the header.
-  await expect(header.locator('img[alt="Faker.js UI logo"]')).toBeVisible();
+  // Logo present, 30px in compact/BEX mode (v1 isBex sizing).
+  const logo = header.locator('img[alt="Faker.js UI logo"]');
+  await expect(logo).toBeVisible();
+  await expect(logo).toHaveAttribute('width', '30');
+
+  // Structural parity with v1 MainLayout: GitHub-stars shield + open-in-new.
+  const stars = header.locator('a[href*="github.com/jofftiquez/faker-js-ui"]');
+  await expect(stars).toBeVisible();
+  await expect(stars.locator('img')).toHaveAttribute(
+    'src',
+    /img\.shields\.io\/github\/stars\/jofftiquez\/faker-js-ui/,
+  );
+  await expect(header.locator('a[href*="app.fakerjsui.org"]')).toBeVisible();
 
   // Font is Roboto (v1 ships Roboto via Quasar).
   const fontFamily = await page
