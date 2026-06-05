@@ -10,6 +10,31 @@ export function defaultOptions (params: MethodParam[]): Record<string, unknown> 
   return Object.fromEntries(params.map((p) => [p.name, p.default]));
 }
 
+/** Mutable values map seeded from param defaults (for the param dialogs). */
+export function initValues (params: MethodParam[]): Record<string, unknown> {
+  const values: Record<string, unknown> = {};
+  for (const p of params) values[p.name] = p.default;
+  return values;
+}
+
+/** Build a faker options object from user-entered values (drops empties). */
+export function buildOptions (
+  params: MethodParam[],
+  values: Record<string, unknown>,
+): Record<string, unknown> | undefined {
+  if (!params.length) return undefined;
+  const opts: Record<string, unknown> = {};
+  let has = false;
+  for (const p of params) {
+    const v = values[p.name];
+    if (v !== undefined && v !== null && v !== '') {
+      opts[p.name] = v;
+      has = true;
+    }
+  }
+  return has ? opts : undefined;
+}
+
 /** Stringify a generated value for clipboard + preview (objects pretty-printed). */
 export function toText (value: unknown): string {
   if (typeof value === 'object' && value !== null) return JSON.stringify(value, null, 2);

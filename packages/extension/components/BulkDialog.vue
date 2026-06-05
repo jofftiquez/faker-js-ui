@@ -11,18 +11,26 @@ import {
 } from 'reka-ui';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import ParameterField from './ParameterField.vue';
 import { bulkResult, downloadJSON, downloadCSV, toJson } from '@/lib/use-bulk';
+import { initValues, buildOptions } from '@/lib/use-generate';
 import type { FakerMethod } from '@/lib/faker/types';
 
 const props = defineProps<{ open: boolean; method: FakerMethod | null }>();
 const emit = defineEmits<{ 'update:open': [value: boolean] }>();
 
 const count = ref('10');
-watch(() => props.open, (o) => { if (o) count.value = '10'; });
+const values = ref<Record<string, unknown>>({});
+watch(() => props.open, (o) => {
+  if (o) {
+    count.value = '10';
+    values.value = props.method ? initValues(props.method.params) : {};
+  }
+});
 
 async function run (): Promise<unknown[]> {
   if (!props.method) return [];
-  return bulkResult(props.method, Number(count.value));
+  return bulkResult(props.method, Number(count.value), buildOptions(props.method.params, values.value));
 }
 
 async function generate () {
@@ -55,6 +63,15 @@ async function asCsv () {
         <DialogDescription class="mt-1 text-xs text-muted-foreground">
           Bulk generate and copy/export.
         </DialogDescription>
+
+        <div v-if="method?.params.length" class="mt-4 space-y-3">
+          <ParameterField
+            v-for="p in method.params"
+            :key="p.name"
+            v-model="values[p.name]"
+            :param="p"
+          />
+        </div>
 
         <div class="mt-4 space-y-1">
           <label for="bulk-count" class="text-sm font-medium">How many times?</label>

@@ -5,16 +5,27 @@ import MethodSearch from '@/components/MethodSearch.vue';
 import MethodList from '@/components/MethodList.vue';
 import ReviewDialog from '@/components/ReviewDialog.vue';
 import BulkDialog from '@/components/BulkDialog.vue';
+import ParameterDialog from '@/components/ParameterDialog.vue';
 import { Toaster } from '@/components/ui/sonner';
 import { useGenerate } from '@/lib/use-generate';
 import type { FakerMethod } from '@/lib/faker/types';
 
 const { generate, showReview } = useGenerate();
 
-// Phase 3: methods with params generate with their defaults. Phase 5 opens the
-// parameter dialog for these instead.
+// Parameter prompt: methods with params open the parameter dialog; others
+// generate immediately.
+const paramMethod = ref<FakerMethod | null>(null);
+const paramOpen = ref(false);
 function handleSelect (method: FakerMethod) {
-  void generate(method);
+  if (method.params.length) {
+    paramMethod.value = method;
+    paramOpen.value = true;
+  } else {
+    void generate(method);
+  }
+}
+function handleParamGenerate (payload: { method: FakerMethod; options?: Record<string, unknown> }) {
+  void generate(payload.method, payload.options);
 }
 
 // Bulk generation (v1 "beast mode").
@@ -38,6 +49,11 @@ function handleBulk (method: FakerMethod) {
       <MethodList @select="handleSelect" @bulk="handleBulk" />
     </main>
 
+    <ParameterDialog
+      v-model:open="paramOpen"
+      :method="paramMethod"
+      @generate="handleParamGenerate"
+    />
     <ReviewDialog v-model:open="showReview" />
     <BulkDialog v-model:open="bulkOpen" :method="bulkMethod" />
     <Toaster
