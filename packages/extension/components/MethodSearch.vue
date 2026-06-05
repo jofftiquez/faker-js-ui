@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef } from 'vue';
 import { refDebounced, onClickOutside } from '@vueuse/core';
-import { Search } from '@lucide/vue';
+import { Search, Layers } from '@lucide/vue';
 import { Input } from '@/components/ui/input';
 import { fakerMethods } from '@/lib/faker/registry';
 import type { FakerMethod } from '@/lib/faker/types';
 
-const emit = defineEmits<{ select: [method: FakerMethod] }>();
+const emit = defineEmits<{
+  select: [method: FakerMethod];
+  bulk: [method: FakerMethod];
+}>();
 
 const query = ref('');
 const debounced = refDebounced(query, 120);
@@ -47,15 +50,24 @@ function choose (m: FakerMethod) {
       class="absolute z-20 mt-1 max-h-72 w-full overflow-auto rounded-md border bg-popover p-1 shadow-md"
       data-testid="search-results"
     >
-      <li v-for="m in results" :key="m.searchNeedle">
+      <li v-for="m in results" :key="m.searchNeedle" class="flex items-center">
         <button
           type="button"
-          class="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent"
+          class="flex flex-1 items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent"
           :data-method="m.searchNeedle"
           @click="choose(m)"
         >
           <span>{{ m.emoji }}</span>
           <span>{{ m.searchNeedle }}</span>
+        </button>
+        <button
+          type="button"
+          class="rounded-sm px-2 py-1.5 text-muted-foreground hover:text-foreground"
+          :aria-label="`Bulk generate ${m.name}`"
+          :data-bulk="m.searchNeedle"
+          @click="emit('bulk', m); open = false; query = ''"
+        >
+          <Layers class="size-4" />
         </button>
       </li>
     </ul>
